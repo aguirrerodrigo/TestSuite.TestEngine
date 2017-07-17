@@ -1,0 +1,8 @@
+﻿.validation-summary-errors li {
+    list-style-type:none;
+    margin-left: -40px;
+}
+
+.validation-summary-valid.alert-danger {
+    display: none;
+}

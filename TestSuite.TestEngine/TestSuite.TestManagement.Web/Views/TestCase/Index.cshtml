@@ -1,0 +1,23 @@
+﻿@model TestSuite.TestManagement.Web.ViewModels.TestCaseViewModel
+@{
+    ViewBag.Title = "Test Cases";
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval"))
+}
+
+<br/>
+@Html.ValidationSummary(false, null, new { @class = "alert alert-danger" })
+
+@using (var form = Html.BeginForm("Create", "TestCase", FormMethod.Post, new { @class = "form-inline" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+        @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+    </div>
+}

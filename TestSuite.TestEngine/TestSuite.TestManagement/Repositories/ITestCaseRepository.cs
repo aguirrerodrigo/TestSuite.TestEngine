@@ -2,9 +2,9 @@
 
 namespace TestSuite.TestManagement.Repositories
 {
-    public interface ITestCaseRepository : IDisposable
+    public interface ITestCaseRepository
     {
-        void Save(TestCase testCase);
+        void Create(TestCase testCase);
         void AddDefinition(string testCase, TestCaseDefinition definition);
     }
 }

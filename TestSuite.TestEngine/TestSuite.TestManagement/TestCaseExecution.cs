@@ -24,7 +24,7 @@ namespace TestSuite.TestManagement
             var split = definition.Split(new string[] { "\r\n" }, StringSplitOptions.None);
             foreach(var row in split)
             {
-                Domain.Factories.TestStep.Create(row);
+                //Domain.Factories.TestStep.Create(row);
             }
         }
     }

@@ -29,8 +29,8 @@ namespace TestSuite.TestEngine
         {
             try
             {
-                ExtractAssembly(qualifiedName, out var assemblyName, out var typeName);
-                var instance = CreateInstance(assemblyName, typeName);
+                this.ExtractAssembly(qualifiedName, out var assemblyName, out var typeName);
+                var instance = this.CreateInstance(assemblyName, typeName);
                 this.methodExecution = new MethodExecution(instance);
             }
             catch (Exception ex)

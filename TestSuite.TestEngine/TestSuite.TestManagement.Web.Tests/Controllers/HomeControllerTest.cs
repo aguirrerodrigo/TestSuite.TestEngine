@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestSuite.TestManagement.Web;
 using TestSuite.TestManagement.Web.Controllers;
 
 namespace TestSuite.TestManagement.Web.Tests.Controllers
@@ -19,7 +14,7 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            var result = controller.Index() as ActionResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -32,7 +27,7 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.About() as ViewResult;
+            var result = controller.About() as ViewResult;
 
             // Assert
             Assert.AreEqual("Your application description page.", result.ViewBag.Message);
@@ -45,7 +40,7 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Contact() as ViewResult;
+            var result = controller.Contact() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);

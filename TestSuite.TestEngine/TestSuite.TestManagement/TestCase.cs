@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TestSuite.TestManagement.Extensions;
+using TestSuite.TestManagement.Repositories;
 
 namespace TestSuite.TestManagement
 {
@@ -9,7 +10,7 @@ namespace TestSuite.TestManagement
     {
         public string Name { get; set; }
         public DateTime CreatedDateTime { get; set; }
-
+        
         private List<TestCaseDefinition> definitions = new List<TestCaseDefinition>();
         public IEnumerable<TestCaseDefinition> Definitions
         {
@@ -22,7 +23,6 @@ namespace TestSuite.TestManagement
         }
 
         private List<TestCaseResult> results = new List<TestCaseResult>();
-
         public IEnumerable<TestCaseResult> Results
         {
             get { return this.results; }
@@ -33,26 +33,19 @@ namespace TestSuite.TestManagement
             }
         }
 
-        public void Save()
+        public void Create(ITestCaseRepository repository)
         {
-            using (var repo = Domain.Factories.Repository.CreateTestCaseRepository())
-            {
-                repo.Save(this);
-            }
+            repository.Create(this);
         }
 
-        public TestCaseDefinition UpdateDefinition(string definition)
+        public virtual TestCaseDefinition UpdateDefinition(string definition, ITestCaseRepository repository)
         {
             var timeStamp = DateTime.Now.ToTimeStamp();
             var testCaseDefinition = new TestCaseDefinition();
             testCaseDefinition.Name = string.Format($"definition_{timeStamp}");
             testCaseDefinition.Definition = definition;
 
-            using (var repo = Domain.Factories.Repository.CreateTestCaseRepository())
-            {
-                repo.AddDefinition(this.Name, testCaseDefinition);
-            }
-
+            repository.AddDefinition(this.Name, testCaseDefinition);
             this.definitions.Insert(0, testCaseDefinition);
 
             return testCaseDefinition;

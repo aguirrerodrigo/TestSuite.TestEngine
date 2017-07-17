@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace TestSuite.TestEngine
 {
@@ -17,14 +16,14 @@ namespace TestSuite.TestEngine
         {
             get
             {
-                return dictionary[parameter];
+                return this.dictionary[parameter];
             }
             set
             {
-                if (dictionary.ContainsKey(parameter))
-                    dictionary[parameter] = value;
+                if (this.dictionary.ContainsKey(parameter))
+                    this.dictionary[parameter] = value;
                 else
-                    dictionary.Add(parameter, value);
+                    this.dictionary.Add(parameter, value);
             }
         }
 

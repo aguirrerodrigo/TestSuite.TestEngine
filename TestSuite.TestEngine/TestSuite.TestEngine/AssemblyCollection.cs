@@ -20,7 +20,7 @@ namespace TestSuite.TestEngine
         internal void Add(Assembly assembly)
         {
             var assemblyName = assembly.GetName().Name;
-            if (dictionary.ContainsKey(assemblyName))
+            if (this.dictionary.ContainsKey(assemblyName))
                 throw new TestEngineConfigurationException($"Could not add assembly '{assemblyName}'. Assembly with the same name already exists.");
             this.dictionary.Add(assemblyName, assembly);
         }

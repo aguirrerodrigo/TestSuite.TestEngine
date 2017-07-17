@@ -9,15 +9,8 @@ namespace TestSuite.TestManagement.Test
     [TestClass]
     public class TestCase_TestUpdateDefinition
     {
-        private ITestCaseRepository testCaseRepo;
+        private ITestCaseRepository testCaseRepository = Mock.Of<ITestCaseRepository>();
         private TestCase testCase = new TestCase();
-
-        public TestCase_TestUpdateDefinition()
-        {
-            testCaseRepo = Mock.Of<ITestCaseRepository>();
-            Domain.Factories.Repository = Mock.Of<IRepositoryFactory>(
-                f => f.CreateTestCaseRepository() == testCaseRepo);
-        }
 
         [TestMethod]
         public void Test_ShouldAddDefinitionToRepository()
@@ -26,10 +19,10 @@ namespace TestSuite.TestManagement.Test
             testCase.Name = "TestCaseName";
 
             // Act
-            testCase.UpdateDefinition("TestDefinition");
+            testCase.UpdateDefinition("TestDefinition", testCaseRepository);
 
             // Assert
-            Mock.Get(testCaseRepo)
+            Mock.Get(testCaseRepository)
                 .Verify(r => r.AddDefinition(
                     It.Is<string>(tc => tc == "TestCaseName"),
                     It.Is<TestCaseDefinition>(tcd => tcd.Definition == "TestDefinition")), Times.Once());
@@ -47,7 +40,7 @@ namespace TestSuite.TestManagement.Test
             };
 
             // Act
-            var testCaseDefinition = testCase.UpdateDefinition("TestDefinition");
+            var testCaseDefinition = testCase.UpdateDefinition("TestDefinition", testCaseRepository);
 
             // Assert
             var result = testCase.Definitions.FirstOrDefault();

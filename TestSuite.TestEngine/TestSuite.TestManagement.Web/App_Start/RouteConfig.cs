@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace TestSuite.TestManagement.Web
@@ -12,6 +8,13 @@ namespace TestSuite.TestManagement.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "ControllerDefault",
+                url: "{controller}",
+                defaults: new { action = "Index" },
+                constraints: new { action = "Index" }
+            );
 
             routes.MapRoute(
                 name: "Default",
