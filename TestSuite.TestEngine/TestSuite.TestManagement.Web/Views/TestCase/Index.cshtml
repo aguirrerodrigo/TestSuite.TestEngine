@@ -37,14 +37,14 @@
         @foreach (var testCase in Model.TestCases)
         {
             <tr>
-                <td class="col-md-1 text-right">
+                <td class="col-sm-1 text-right">
                     <span class="fa fa-question-circle text-muted" title="New" />
                     @*<span class="fa fa-check-circle text-success" title="Passed"/>
                     <span class="fa fa-times-circle text-danger" title="Failed" />
                     <span class="fa fa-exclamation-circle text-warning" title="Not Executed" />*@
                 </td>
-                <td class="col-md-8">@testCase.Name</td>
-                <td class="col-md-3 text-left">@testCase.CreatedDateTime</td>
+                <td class="col-sm-9">@testCase.Name</td>
+                <td class="col-sm-2 text-left text-nowrap">@testCase.CreatedDateTime</td>
             </tr>
         }
         </tbody>
