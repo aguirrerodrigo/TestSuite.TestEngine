@@ -10,9 +10,6 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-#Post-build Assemblies
-TestSuite.TestEngine.Test/Assemblies/*.dll
-
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -262,3 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+#Post-build Assemblies
+/TestSuite.TestEngine/TestSuite.TestEngine.Test/Assemblies/TestSuite.TestEngine.Mock.dll
+/TestSuite.TestEngine/TestSuite.TestEngine.Test/Assemblies/TestSuite.TestEngine.MockReference.dll
