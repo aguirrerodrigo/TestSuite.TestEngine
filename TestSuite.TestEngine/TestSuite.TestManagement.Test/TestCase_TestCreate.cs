@@ -5,13 +5,13 @@ using TestSuite.TestManagement.Repositories;
 namespace TestSuite.TestManagement.Test
 {
     [TestClass]
-    public class TestCase_TestSave
+    public class TestCase_TestCreate
     {
         private ITestCaseRepository testCaseRepository = Mock.Of<ITestCaseRepository>();
         private TestCase testCase = new TestCase();
 
         [TestMethod]
-        public void Test_ShouldSaveTestCaseInRepository()
+        public void Test_ShouldCreateTestCaseInRepository()
         {
             // Arrange
 
