@@ -26,14 +26,12 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
         {
             // Arrange
             var dir1 = NewDirectory(DateTime.Now, "dir1");
-            var dir2 = NewDirectory(DateTime.Now, "dir2");
-            this.directories.AddRange(new Directory[] { dir1, dir2 });
+            this.directories.Add(dir1);
 
             // Act
             var result = this.testCaseRepository.FetchAll().ToList();
 
             // Assert
-            result.Count.ShouldEqual(2);
             result[0].Name.ShouldEqual("dir1");
             result[0].CreatedDateTime.ShouldEqual(dir1.CreatedDateTime);
         }

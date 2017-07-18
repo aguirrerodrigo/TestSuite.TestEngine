@@ -10,17 +10,17 @@ using TestSuite.TestManagement.Web.ViewModels;
 namespace TestSuite.TestManagement.Web.Tests.Controllers
 {
     [TestClass]
-    public class TestCaseControllerTest
+    public class TestSuiteControllerTest
     {
         private List<TestCase> testCases;
         private ITestCaseRepository testCaseRepository;
-        private TestCaseController controller;
+        private TestSuiteController controller;
 
-        public TestCaseControllerTest()
+        public TestSuiteControllerTest()
         {
             this.testCases = new List<TestCase>();
             this.testCaseRepository = Mock.Of<ITestCaseRepository>(r => r.FetchAll() == testCases);
-            this.controller = new TestCaseController(testCaseRepository);
+            this.controller = new TestSuiteController(testCaseRepository);
         }
 
         [TestMethod]
@@ -44,33 +44,33 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
 
             // Act
             var result = controller.Index() as ViewResult;
-            var model = result.ViewData.Model as TestCaseViewModel;
+            var model = result.ViewData.Model as TestSuiteViewModel;
 
             // Assert
             model.TestCases.ShouldEqual(testCases);
         }
 
         [TestMethod]
-        public void Create()
+        public void CreateTestCase()
         {
             // Arrange
-            var testCaseName = "SampleTestCase";
+            var name = "SampleTestCase";
 
             // Act
-            var result = controller.Create(testCaseName) as ActionResult;
+            var result = controller.CreateTestCase(name) as ActionResult;
 
             // Assert
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public void Create_ShouldPersistToRepository()
+        public void CreateTestCase_ShouldPersistToRepository()
         {
             // Arrange
-            var testCaseName = "SampleTestCase";
+            var name = "SampleTestCase";
 
             // Act
-            var result = controller.Create(testCaseName) as ActionResult;
+            var result = controller.CreateTestCase(name) as ActionResult;
 
             // Assert
             Mock.Get(testCaseRepository)

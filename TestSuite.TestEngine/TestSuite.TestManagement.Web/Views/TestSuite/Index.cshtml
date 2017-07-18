@@ -1,0 +1,48 @@
+﻿@model TestSuite.TestManagement.Web.ViewModels.TestSuiteViewModel
+@{
+    ViewBag.Title = "Test Cases";
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<div class="page-header">
+    <h1>Test Cases</h1>
+</div>
+@Html.ValidationSummary(false, null, new { @class = "alert alert-danger" })
+
+@using (var form = Html.BeginForm("CreateTestCase", "TestSuite", FormMethod.Post, new { @class = "form-inline" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.TestCase, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.TestCase, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+        @Html.ValidationMessageFor(m => m.TestCase, null, new { @class = "text-danger" })
+    </div>
+}
+@if (Model.TestCases.Any())
+{
+    <br />
+    <div class="list-group">
+    @foreach (var testCase in Model.TestCases)
+    {
+        <a class="list-group-item" href="@Url.Action("Index", "TestCase", new { name = testCase.Name })">
+            <span class="fa fa-question-circle text-muted" title="New"></span>
+            <span>@testCase.Name</span>
+            <span class="badge badge-default badge-pill" title="Steps">0</span>
+        </a>
+        <a class="list-group-item list-group-item-success" href="@Url.Action("Index", "TestCase", new { name = testCase.Name })">
+            <span class="fa fa-check-circle text-success" title="Passed"></span>
+            <span>@testCase.Name</span>
+            <span class="badge badge-default badge-pill" title="Steps">1</span>
+        </a>
+        <a class="list-group-item list-group-item-danger" href="@Url.Action("Index", "TestCase", new { name = testCase.Name })">
+            <span class="fa fa-times-circle" title="Failed"></span>
+            <span>@testCase.Name</span>
+            <span class="badge badge-default badge-pill" title="Steps">1</span>
+        </a>
+    }
+    </div>
+}

@@ -6,7 +6,7 @@ namespace TestSuite.TestManagement.Web.Controllers
     {
         public ActionResult Index()
         {
-            return Redirect("TestCase");
+            return Redirect("TestSuite");
         }
 
         public ActionResult About()

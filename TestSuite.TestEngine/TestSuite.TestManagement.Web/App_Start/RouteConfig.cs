@@ -9,6 +9,8 @@ namespace TestSuite.TestManagement.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapMvcAttributeRoutes();
+
             routes.MapRoute(
                 name: "ControllerDefault",
                 url: "{controller}",
