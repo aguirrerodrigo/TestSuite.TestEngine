@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using TestSuite.TestManagement.Repositories;
+using TestSuite.TestManagement.Web.Factories;
 using TestSuite.TestManagement.Web.ViewModels;
 
 namespace TestSuite.TestManagement.Web.Controllers
@@ -14,13 +15,28 @@ namespace TestSuite.TestManagement.Web.Controllers
             this.repository = repository;
         }
 
-        public TestCaseController() : this(new MockTestCaseRepository())
+        public TestCaseController() : this(RepositoryFactory.CreateTestCaseRepository())
         {
         }
 
         public ActionResult Index()
         {
-            return View();
+            var model = TempData["Model"] as TestCaseViewModel;
+            if (model == null)
+                model = new TestCaseViewModel();
+
+            var error = TempData["Error"] as string;
+            if (error != null)
+                ModelState.AddModelError(string.Empty, error);
+
+            model.TestCases = this.repository.FetchAll();
+
+            return View(model);
+        }
+
+        private ActionResult Index(TestCaseViewModel testCase, string error)
+        {
+            return View(testCase);
         }
 
         [HttpPost]
@@ -34,24 +50,11 @@ namespace TestSuite.TestManagement.Web.Controllers
             }
             catch(Exception ex)
             {
-                ModelState.AddModelError(string.Empty, ex.Message);
-                return View("Index", new TestCaseViewModel(name));
+                TempData["Model"] = new TestCaseViewModel(name);
+                TempData["Error"] = $"Could not create test case. {ex.Message}";
             }
 
             return RedirectToAction("Index");
-        }
-    }
-
-    public class MockTestCaseRepository : ITestCaseRepository
-    {
-        public void AddDefinition(string testCase, TestCaseDefinition definition)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Create(TestCase testCase)
-        {
-            throw new NotImplementedException();
         }
     }
 }

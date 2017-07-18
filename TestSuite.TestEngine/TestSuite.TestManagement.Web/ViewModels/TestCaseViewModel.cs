@@ -13,6 +13,10 @@ namespace TestSuite.TestManagement.Web.ViewModels
         public string Name { get; set; }
         public IEnumerable<TestCase> TestCases { get; set; }
 
+        public TestCaseViewModel()
+        {
+        }
+
         public TestCaseViewModel(string name)
         {
             this.Name = name;
