@@ -263,3 +263,4 @@ __pycache__/
 #Post-build Assemblies
 /TestSuite.TestEngine/TestSuite.TestEngine.Test/Assemblies/TestSuite.TestEngine.Mock.dll
 /TestSuite.TestEngine/TestSuite.TestEngine.Test/Assemblies/TestSuite.TestEngine.MockReference.dll
+/TestSuite.TestEngine/TestSuite.TestManagement.Web/Repository

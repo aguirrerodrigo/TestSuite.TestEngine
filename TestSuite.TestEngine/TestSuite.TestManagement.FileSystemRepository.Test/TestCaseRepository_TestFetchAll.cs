@@ -17,8 +17,8 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
         public TestCaseRepository_TestFetchAll()
         {
             this.directories = new List<Directory>();
-            this.fileSystemRepository = Mock.Of<IFileSystemRepository>(r => r.FetchAll() == directories);
-            this.testCaseRepository = new TestCaseRepository(fileSystemRepository);
+            this.fileSystemRepository = Mock.Of<IFileSystemRepository>(r => r.FetchAllDirectories(It.IsAny<string>()) == directories);
+            this.testCaseRepository = new TestCaseRepository(string.Empty, fileSystemRepository);
         }
 
         [TestMethod]

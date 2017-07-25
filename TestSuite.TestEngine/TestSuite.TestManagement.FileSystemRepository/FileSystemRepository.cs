@@ -2,52 +2,105 @@
 using System.Collections.Generic;
 using System.IO;
 using IoDirectory = System.IO.Directory;
+using IoFile = System.IO.File;
 
 namespace TestSuite.TestManagement.FileSystemRepository
 {
     internal class FileSystemRepository : IFileSystemRepository
     {
-        private string path;
-
-        public FileSystemRepository(string path)
+        public Directory CreateDirectory(string directoryPath)
         {
-            this.path = path;
+            if (IoDirectory.Exists(directoryPath))
+                throw new DirectoryExistsException($"Directory '{directoryPath}' already exists.");
+            var dirInfo = IoDirectory.CreateDirectory(directoryPath);
+            var directory = MapDirectory(dirInfo);
+
+            return directory;
         }
 
-        public Directory CreateDirectory(string name)
+        private Directory MapDirectory(DirectoryInfo directoryInfo)
         {
-            var dirPath = Path.Combine(this.path, name);
-            if (IoDirectory.Exists(dirPath))
-                throw new DirectoryExistsException($"Directory '{name}' already exists.");
-            var dirInfo = IoDirectory.CreateDirectory(dirPath);
+            var directory = new Directory();
+            directory.CreatedDateTime = directoryInfo.CreationTime;
+            directory.Name = directoryInfo.Name;
+            directory.Path = directoryInfo.FullName;
 
-            var result = new Directory();
-            result.CreatedDateTime = dirInfo.CreationTime;
-            result.Name = name;
-            result.Path = dirPath;
-
-            return result;
+            return directory;
         }
 
-        public IEnumerable<Directory> FetchAll()
+        public IEnumerable<Directory> FetchAllDirectories(string path)
         {
             List<Directory> result = new List<Directory>();
 
-            if (IoDirectory.Exists(this.path))
+            if (IoDirectory.Exists(path))
             {
-                var dirs = IoDirectory.GetDirectories(this.path);
+                var dirs = IoDirectory.GetDirectories(path);
                 foreach (var dir in dirs)
                 {
                     var dirInfo = new DirectoryInfo(dir);
-                    var directory = new Directory();
-                    directory.CreatedDateTime = dirInfo.CreationTime;
-                    directory.Name = dirInfo.Name;
-                    directory.Path = dirInfo.FullName;
+                    var directory = MapDirectory(dirInfo);
                     result.Add(directory);
                 }
             }
 
             return result;
+        }
+
+        public Directory GetDirectory(string directoryPath)
+        {
+            var dirInfo = new DirectoryInfo(directoryPath);
+            var directory = MapDirectory(dirInfo);
+
+            return directory;
+        }
+
+        public File CreateFile(string filePath, string contents)
+        {
+            if(IoFile.Exists(filePath))
+                throw new FileExistsException($"File '{filePath}' already exists.");
+
+            var dirPath = Path.GetDirectoryName(filePath);
+            IoDirectory.CreateDirectory(dirPath);
+
+            IoFile.WriteAllText(filePath, contents);
+            var fileInfo = new FileInfo(filePath);
+
+            var file = new File();
+            file.CreatedDateTime = fileInfo.CreationTime;
+            file.Name = fileInfo.Name;
+            file.Path = fileInfo.FullName;
+            file.Contents = contents;
+
+            return file;
+        }
+
+        public IEnumerable<File> FetchAllFiles(string path)
+        {
+            List<File> result = new List<File>();
+
+            if(IoDirectory.Exists(path))
+            {
+                var dirInfo = new DirectoryInfo(path);
+                var fileInfos = dirInfo.GetFiles();
+                foreach (var fileInfo in fileInfos)
+                {
+                    var file = MapFile(fileInfo);
+                    result.Add(file);
+                }
+            }
+
+            return result;
+        }
+
+        private File MapFile(FileInfo fileInfo)
+        {
+            var file = new File();
+            file.Contents = IoFile.ReadAllText(fileInfo.FullName);
+            file.CreatedDateTime = fileInfo.CreationTime;
+            file.Name = fileInfo.Name;
+            file.Path = fileInfo.FullName;
+
+            return file;
         }
     }
 }

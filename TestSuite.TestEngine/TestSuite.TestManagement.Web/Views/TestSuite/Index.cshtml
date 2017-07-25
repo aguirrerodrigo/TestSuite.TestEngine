@@ -28,17 +28,17 @@
     <div class="list-group">
     @foreach (var testCase in Model.TestCases)
     {
-        <a class="list-group-item" href="@Url.Action("Index", "TestCase", new { name = testCase.Name })">
+        <a class="list-group-item" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
             <span class="fa fa-question-circle text-muted" title="New"></span>
             <span>@testCase.Name</span>
             <span class="badge badge-default badge-pill" title="Steps">0</span>
         </a>
-        <a class="list-group-item list-group-item-success" href="@Url.Action("Index", "TestCase", new { name = testCase.Name })">
+        <a class="list-group-item list-group-item-success" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
             <span class="fa fa-check-circle text-success" title="Passed"></span>
             <span>@testCase.Name</span>
             <span class="badge badge-default badge-pill" title="Steps">1</span>
         </a>
-        <a class="list-group-item list-group-item-danger" href="@Url.Action("Index", "TestCase", new { name = testCase.Name })">
+        <a class="list-group-item list-group-item-danger" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
             <span class="fa fa-times-circle" title="Failed"></span>
             <span>@testCase.Name</span>
             <span class="badge badge-default badge-pill" title="Steps">1</span>

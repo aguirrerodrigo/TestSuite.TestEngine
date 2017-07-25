@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Directory.cs" />
     <Compile Include="DirectoryExistsException.cs" />
+    <Compile Include="File.cs" />
+    <Compile Include="FileExistsException.cs" />
     <Compile Include="FileSystemRepository.cs" />
     <Compile Include="IFileSystemRepository.cs" />
     <Compile Include="TestCaseRepository.cs" />

@@ -16,7 +16,7 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
         {
             this.directory = new Directory();
             this.fileSystemRepository = Mock.Of<IFileSystemRepository>(r => r.CreateDirectory(It.IsAny<string>()) == this.directory);
-            this.testCaseRepository = new TestCaseRepository(fileSystemRepository);
+            this.testCaseRepository = new TestCaseRepository(string.Empty, fileSystemRepository);
         }
 
         [TestMethod]

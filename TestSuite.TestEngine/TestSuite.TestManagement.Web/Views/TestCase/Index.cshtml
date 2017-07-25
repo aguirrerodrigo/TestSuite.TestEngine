@@ -1,1 +1,49 @@
-﻿
+﻿@model TestSuite.TestManagement.Web.ViewModels.TestCaseViewModel
+@{
+    ViewBag.Title = "Test Case: " + Model.Name;
+}
+
+<div class="page-header">
+    <h1>Test Case: @Model.Name</h1>
+</div>
+
+@{ var hasDefinitions = Model.Definitions.Any(); }
+<div class="@(hasDefinitions ? "col-md-9" : "col-md-12")">
+    @using (var form = Html.BeginForm("UpdateDefinition", "TestCase", FormMethod.Post, new { testCase = Model.Name }))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Definition, new { @class = "control-label" })
+            @Html.TextAreaFor(m => m.Definition, new { @class = "form-control no-max-width", rows = 20 })
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <a href="~/TestSuite/" class="btn btn-danger">Cancel</a>
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Update" class="btn btn-primary no-max-width" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (hasDefinitions)
+{
+    <div class="col-md-3 list-group">
+        @Html.LabelFor(m => m.Definitions, new { @class = "control-label" })
+        @foreach (var definition in Model.Definitions)
+        {
+            if (definition.IsSelected)
+            {
+                <a class="list-group-item list-group-item-info" href="#">
+                    <span>@definition.Name</span>
+                </a>
+            }
+            else
+            {
+                <a class="list-group-item list-group-item" href="@Url.Action("Index", "TestCase", new { testCase = Model.Name, definitionName = definition.Name })">
+                    <span>@definition.Name</span>
+                </a>
+            }
+        }
+    </div>
+}

@@ -4,7 +4,11 @@ namespace TestSuite.TestManagement.FileSystemRepository
 {
     public interface IFileSystemRepository
     {
-        Directory CreateDirectory(string name);
-        IEnumerable<Directory> FetchAll();
+        Directory CreateDirectory(string directoryPath);
+        IEnumerable<Directory> FetchAllDirectories(string path);
+        Directory GetDirectory(string directoryPath);
+
+        File CreateFile(string filePath, string contents);       
+        IEnumerable<File> FetchAllFiles(string path);
     }
 }
