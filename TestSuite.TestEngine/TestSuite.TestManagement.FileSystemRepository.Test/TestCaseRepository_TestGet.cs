@@ -58,6 +58,32 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
             definition.CreatedDateTime.ShouldEqual(file.CreatedDateTime);
         }
 
+        [TestMethod]
+        public void Test_ShouldMapExecutionFile()
+        {
+            // Arrange
+            var dummy = new TestCaseExecution();
+            dummy.Started = DateTime.Now.AddDays(-1);
+            dummy.Ended = DateTime.Now;
+            var xml = dummy.ToXml();
+            var file = NewFile("file1.xml", xml, DateTime.Now.AddDays(-2));
+            var files = new File[] { file };
+            Mock.Get(fileSystemRepository)
+                .Setup(r => r.FetchAllFiles("Root\\TestCase01\\Executions"))
+                .Returns(files);
+
+            // Act
+            var testCase = testCaseRepository.Get("TestCase01");
+            var execution = testCase.Executions.First();
+
+            // Assert
+            execution.Name.ShouldEqual("file1");
+            execution.Started.ShouldEqual(dummy.Started);
+            execution.Ended.ShouldEqual(dummy.Ended);
+            execution.CreatedDateTime.ShouldEqual(file.CreatedDateTime);
+        }
+
+
         private File NewFile(string fileName, string contents, DateTime createdDateTime)
         {
             var result = new File();

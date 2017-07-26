@@ -71,16 +71,19 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
         [TestMethod]
         public void Index_ShouldRetrieveTestCases()
         {
-            // Arrange
-            testCases.Add(new TestCase());
-            testCases.Add(new TestCase());
+            // Arrange 
+            var testCase1 = new TestCase() { Name = "TestCase01" };
+            var testCase2 = new TestCase() { Name = "TestCase02" };
+            testCases.Add(testCase1);
+            testCases.Add(testCase2);
 
             // Act
             var result = controller.Index() as ViewResult;
             var model = result.ViewData.Model as TestSuiteViewModel;
 
             // Assert
-            model.TestCases.ShouldEqual(testCases);
+            model.TestCases.Any(tc => tc.Name == "TestCase01").ShouldBeTrue();
+            model.TestCases.Any(tc => tc.Name == "TestCase02").ShouldBeTrue();
         }
 
         [TestMethod]

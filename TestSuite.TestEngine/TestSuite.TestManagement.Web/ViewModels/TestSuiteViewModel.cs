@@ -11,7 +11,7 @@ namespace TestSuite.TestManagement.Web.ViewModels
         [Required(ErrorMessage = @"Test case is required.")]
         public string TestCase { get; set; }
 
-        public IEnumerable<TestCase> TestCases { get; set; }
+        public IEnumerable<TestCaseViewModel> TestCases { get; set; }
 
         public TestSuiteViewModel()
         {

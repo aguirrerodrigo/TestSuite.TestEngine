@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TestSuite.TestManagement.Repositories;
@@ -19,12 +20,21 @@ namespace TestSuite.TestManagement.FileSystemRepository
         public TestCaseRepository(string path) : this(path, new FileSystemRepository())
         {
         }
-        
-        public void AddDefinition(string testCaseName, TestCaseDefinition definition)
+
+        public IEnumerable<TestCase> FetchAll()
         {
-            var filePath = Path.Combine(this.path, testCaseName, "Definitions", definition.Name + ".txt");
-            var file = fileSystemRepository.CreateFile(filePath, definition.Definition);
-            definition.CreatedDateTime = file.CreatedDateTime;
+            List<TestCase> result = new List<TestCase>();
+
+            var directories = this.fileSystemRepository.FetchAllDirectories(this.path).OrderBy(d => d.Name);
+            foreach (var directory in directories)
+            {
+                var testCase = MapTestCase(directory);
+                testCase.Definitions = GetTestCaseDefinitions(directory.Name);
+                testCase.Executions = GetTestCaseExecutions(directory.Name);
+                result.Add(testCase);
+            }
+
+            return result;
         }
 
         public void Create(TestCase testCase)
@@ -34,19 +44,6 @@ namespace TestSuite.TestManagement.FileSystemRepository
             testCase.CreatedDateTime = directory.CreatedDateTime;
         }
 
-        public IEnumerable<TestCase> FetchAll()
-        {
-            List<TestCase> result = new List<TestCase>();
-
-            var directories = this.fileSystemRepository.FetchAllDirectories(this.path).OrderByDescending(d => d.CreatedDateTime);
-            foreach(var directory in directories)
-            {
-                var testCase = MapTestCase(directory);
-                result.Add(testCase);
-            }
-
-            return result;
-        }
 
         public TestCase Get(string testCaseName)
         {
@@ -54,6 +51,16 @@ namespace TestSuite.TestManagement.FileSystemRepository
             var dir = this.fileSystemRepository.GetDirectory(dirPath);
             var testCase = MapTestCase(dir);
             testCase.Definitions = GetTestCaseDefinitions(testCaseName);
+            testCase.Executions = GetTestCaseExecutions(testCaseName);
+
+            return testCase;
+        }
+
+        private TestCase MapTestCase(Directory directory)
+        {
+            var testCase = new TestCase();
+            testCase.CreatedDateTime = directory.CreatedDateTime;
+            testCase.Name = directory.Name;
 
             return testCase;
         }
@@ -75,13 +82,35 @@ namespace TestSuite.TestManagement.FileSystemRepository
             return result;
         }
 
-        private TestCase MapTestCase(Directory directory)
+        private IEnumerable<TestCaseExecution> GetTestCaseExecutions(string testCaseName)
         {
-            var testCase = new TestCase();
-            testCase.CreatedDateTime = directory.CreatedDateTime;
-            testCase.Name = directory.Name;
+            var result = new List<TestCaseExecution>();
+            var executionsPath = Path.Combine(this.path, testCaseName, "Executions");
+            var executionFiles = this.fileSystemRepository.FetchAllFiles(executionsPath);
+            foreach (var execution in executionFiles)
+            {
+                var tce = TestCaseExecution.FromXml(execution.Contents);
+                tce.CreatedDateTime = execution.CreatedDateTime;
+                tce.Name = Path.GetFileNameWithoutExtension(execution.Name);
+                
+                result.Add(tce);
+            }
 
-            return testCase;
+            return result;
+        }
+
+        public void AddDefinition(string testCaseName, TestCaseDefinition definition)
+        {
+            var filePath = Path.Combine(this.path, testCaseName, "Definitions", definition.Name + ".txt");
+            var file = fileSystemRepository.CreateFile(filePath, definition.Definition);
+            definition.CreatedDateTime = file.CreatedDateTime;
+        }
+
+        public void AddExecution(string testCaseName, TestCaseExecution execution)
+        {
+            var filePath = Path.Combine(this.path, testCaseName, "Executions", execution.Name + ".xml");
+            var file = fileSystemRepository.CreateFile(filePath, execution.ToXml());
+            execution.CreatedDateTime = file.CreatedDateTime;
         }
     }
 }

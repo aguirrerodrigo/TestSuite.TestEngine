@@ -1,31 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace TestSuite.TestManagement
 {
     public class TestCaseExecution
     {
-        public string Name { get; set; }
-        public DateTime ModifiedDateTime { get; set; }
-        public DateTime? Started { get; set; }
-        public DateTime? Ended { get; set; }
-
-        private List<TestStep> steps = new List<TestStep>();
-        public IEnumerable<TestStep> Steps
+        public static TestCaseExecution FromXml(string xml)
         {
-            get { return this.steps; }
-            set { this.steps = new List<TestStep>(value); }
+            var result = default(TestCaseExecution);
+            try
+            {
+                var xmlSerializer = new XmlSerializer(typeof(TestCaseExecution));
+                using (var reader = new StringReader(xml))
+                {
+                    result = xmlSerializer.Deserialize(reader) as TestCaseExecution;
+                }
+            }
+            catch (Exception ex)
+            {
+                result = new TestCaseExecution();
+                result.Error = ex.Message;
+            }
+
+            return result;
         }
 
+        [XmlIgnore]
+        public string Name { get; set; }
+        [XmlIgnore]
+        public DateTime CreatedDateTime { get; set; }
+        [XmlIgnore]
+        public string Error { get; set; }
+        public DateTime? Started { get; set; }
+        public DateTime? Ended { get; set; }
+        public ExecutionStatus Status { get; set; }
+        public List<TestStep> Steps { get; set; } = new List<TestStep>();
+
         public TestCaseExecution() { }
-        
-        public TestCaseExecution(string definition)
+
+        public string ToXml()
         {
-            var split = definition.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-            foreach(var row in split)
+            var result = default(string);
+            var xmlSerializer = new XmlSerializer(typeof(TestCaseExecution));
+            using (var stringWriter = new StringWriter())
+            using (var writer = XmlWriter.Create(stringWriter))
             {
-                //Domain.Factories.TestStep.Create(row);
+                xmlSerializer.Serialize(writer, this);
+                result = stringWriter.ToString();
             }
+
+            return result;
         }
     }
 }

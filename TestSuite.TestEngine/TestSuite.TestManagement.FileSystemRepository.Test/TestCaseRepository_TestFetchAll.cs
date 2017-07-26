@@ -37,7 +37,7 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
         }
 
         [TestMethod]
-        public void Test_ShouldSortByTestCasesByCreatedDateTimeDesc()
+        public void Test_ShouldSortByName()
         {
             // Arrange
             var dir1 = NewDirectory(DateTime.Now.AddDays(-3), "dir1");
@@ -49,9 +49,9 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
             var result = this.testCaseRepository.FetchAll().ToList();
 
             // Assert
-            result[0].Name.ShouldEqual("dir3");
+            result[0].Name.ShouldEqual("dir1");
             result[1].Name.ShouldEqual("dir2");
-            result[2].Name.ShouldEqual("dir1");
+            result[2].Name.ShouldEqual("dir3");
         }
 
         private Directory NewDirectory(DateTime created, string name = null)

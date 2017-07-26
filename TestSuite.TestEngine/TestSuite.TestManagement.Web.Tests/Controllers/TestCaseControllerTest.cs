@@ -98,5 +98,20 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             Mock.Get(testCaseRepository)
                 .Verify(r => r.AddDefinition(testCaseName, It.Is<TestCaseDefinition>(d => d.Definition == definition)));
         }
+
+        [TestMethod]
+        public void UpdateDefinition_ShouldAddNewExecution()
+        {
+            // Arrange
+            string testCaseName = "testCase";
+            string definition = "definition";
+
+            // Act
+            controller.UpdateDefinition(testCaseName, definition);
+
+            // Assert
+            Mock.Get(testCaseRepository)
+                .Verify(r => r.AddExecution(testCaseName, It.IsAny<TestCaseExecution>()));
+        }
     }
 }

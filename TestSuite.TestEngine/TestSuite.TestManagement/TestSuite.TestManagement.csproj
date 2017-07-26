@@ -40,15 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExecutionStatus.cs" />
+    <Compile Include="Steps\FormattingStep.cs" />
+    <Compile Include="Steps\ExecuteMethodStep.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="ITestStepFactory.cs" />
     <Compile Include="ITestStepVisitor.cs" />
     <Compile Include="Repositories\ITestCaseRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steps\SetClassStep.cs" />
+    <Compile Include="Steps\LoadAssemblyStep.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="TestCaseDefinition.cs" />
     <Compile Include="TestCaseExecution.cs" />
     <Compile Include="TestCaseResult.cs" />
     <Compile Include="TestStep.cs" />
+    <Compile Include="TestStepFactory.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

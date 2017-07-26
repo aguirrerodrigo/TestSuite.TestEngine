@@ -57,10 +57,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestCaseExecution_TestFromXml.cs" />
+    <Compile Include="TestCase_TestExecutions.cs" />
     <Compile Include="TestCase_TestDefinitions.cs" />
     <Compile Include="TestCase_TestCreate.cs" />
+    <Compile Include="TestCase_TestCreateExecution.cs" />
     <Compile Include="TestCase_TestUpdateDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestStepFactory_TestCreate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

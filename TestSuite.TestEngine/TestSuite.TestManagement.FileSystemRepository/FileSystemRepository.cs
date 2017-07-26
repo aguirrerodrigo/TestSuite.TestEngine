@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using IoDirectory = System.IO.Directory;
 using IoFile = System.IO.File;
 
@@ -62,7 +63,7 @@ namespace TestSuite.TestManagement.FileSystemRepository
             var dirPath = Path.GetDirectoryName(filePath);
             IoDirectory.CreateDirectory(dirPath);
 
-            IoFile.WriteAllText(filePath, contents);
+            IoFile.WriteAllText(filePath, contents, Encoding.Unicode);
             var fileInfo = new FileInfo(filePath);
 
             var file = new File();

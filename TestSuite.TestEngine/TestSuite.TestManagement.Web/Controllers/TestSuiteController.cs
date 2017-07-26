@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TestSuite.TestManagement.Repositories;
 using TestSuite.TestManagement.Web.Factories;
@@ -30,7 +31,8 @@ namespace TestSuite.TestManagement.Web.Controllers
             if (error != null)
                 ModelState.AddModelError(string.Empty, error);
 
-            model.TestCases = this.repository.FetchAll();
+            model.TestCases = this.repository.FetchAll()
+                .Select(tc => new TestCaseViewModel(tc));
 
             return View(model);
         }

@@ -7,7 +7,7 @@ using TestSuite.TestManagement.Repositories;
 namespace TestSuite.TestManagement.Test
 {
     [TestClass]
-    public class TestCase_TestUpdateDefinition
+    public class TestCase_TestAddDefinition
     {
         private ITestCaseRepository testCaseRepository = Mock.Of<ITestCaseRepository>();
         private TestCase testCase = new TestCase();
@@ -19,7 +19,7 @@ namespace TestSuite.TestManagement.Test
             testCase.Name = "TestCaseName";
 
             // Act
-            testCase.UpdateDefinition("TestDefinition", testCaseRepository);
+            testCase.AddDefinition("TestDefinition", testCaseRepository);
 
             // Assert
             Mock.Get(testCaseRepository)
@@ -35,7 +35,7 @@ namespace TestSuite.TestManagement.Test
             testCase.Name = "TestCaseName";
 
             // Act
-            testCase.UpdateDefinition("TestDefinition", testCaseRepository);
+            testCase.AddDefinition("TestDefinition", testCaseRepository);
 
             // Assert
             testCase.Definitions.First().Name.ShouldNotBeNull();
@@ -53,17 +53,11 @@ namespace TestSuite.TestManagement.Test
             };
 
             // Act
-            var testCaseDefinition = testCase.UpdateDefinition("TestDefinition", testCaseRepository);
+            var testCaseDefinition = testCase.AddDefinition("TestDefinition", testCaseRepository);
 
             // Assert
             var result = testCase.Definitions.FirstOrDefault();
             result.ShouldEqual(testCaseDefinition);
-        }
-
-        [TestMethod]
-        [Ignore]
-        public void Test_ShouldCreateTestCaseExecution()
-        {
         }
     }
 }

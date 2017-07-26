@@ -39,7 +39,8 @@ namespace TestSuite.TestManagement.Web.Controllers
         {
             TestCase tc = new TestCase();
             tc.Name = testCase;
-            tc.UpdateDefinition(definition, this.repository);
+            tc.AddDefinition(definition, this.repository);
+            tc.AddExecution(definition, this.repository);
 
             return RedirectToAction("Index", new { testCase = testCase });
         }

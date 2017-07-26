@@ -28,22 +28,24 @@
 
 @if (hasDefinitions)
 {
-    <div class="col-md-3 list-group">
+    <div class="col-md-3">
         @Html.LabelFor(m => m.Definitions, new { @class = "control-label" })
-        @foreach (var definition in Model.Definitions)
-        {
-            if (definition.IsSelected)
+        <div class="list-group">
+            @foreach (var definition in Model.Definitions)
             {
-                <a class="list-group-item list-group-item-info" href="@Url.Action("Index", "TestCase", new { testCase = Model.Name, definitionName = definition.Name })">
-                    <span>@definition.Name</span>
-                </a>
+                if (definition.IsSelected)
+                {
+                    <a class="list-group-item active" href="@Url.Action("Index", "TestCase", new { testCase = Model.Name, definitionName = definition.Name })">
+                        <span>@definition.Name</span>
+                    </a>
+                }
+                else
+                {
+                    <a class="list-group-item" href="@Url.Action("Index", "TestCase", new { testCase = Model.Name, definitionName = definition.Name })">
+                        <span>@definition.Name</span>
+                    </a>
+                }
             }
-            else
-            {
-                <a class="list-group-item list-group-item" href="@Url.Action("Index", "TestCase", new { testCase = Model.Name, definitionName = definition.Name })">
-                    <span>@definition.Name</span>
-                </a>
-            }
-        }
+        </div>
     </div>
 }

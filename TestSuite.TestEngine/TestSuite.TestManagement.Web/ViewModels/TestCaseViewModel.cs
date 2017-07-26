@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace TestSuite.TestManagement.Web.ViewModels
 {
     public class TestCaseViewModel
     {
         public string Name { get; set; }
+
+        public int ExecutionCount { get; set; }
+
+        public ExecutionStatus Status { get; set; }
 
         [DisplayName("Update definition")]
         public string Definition { get; set; }
@@ -15,6 +19,10 @@ namespace TestSuite.TestManagement.Web.ViewModels
         public IEnumerable<TestCaseDefinitionViewModel> Definitions { get; set; }
 
         public TestCaseViewModel()
+        {
+        }
+
+        public TestCaseViewModel(TestCase testCase) : this(testCase, null)
         {
         }
 
@@ -33,6 +41,12 @@ namespace TestSuite.TestManagement.Web.ViewModels
                 }
 
                 definitions.Add(def);
+            }
+
+            if(testCase.Executions.Any())
+            {
+                this.ExecutionCount = testCase.Executions.Count();
+                this.Status = testCase.Executions.First().Status;
             }
 
             this.Definitions = definitions;

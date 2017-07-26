@@ -7,7 +7,8 @@ namespace TestSuite.TestManagement.Repositories
     {
         IEnumerable<TestCase> FetchAll();
         void Create(TestCase testCase);
-        void AddDefinition(string testCaseName, TestCaseDefinition definition);
         TestCase Get(string testCaseName);
+        void AddDefinition(string testCaseName, TestCaseDefinition definition);
+        void AddExecution(string testCaseName, TestCaseExecution execution);
     }
 }
