@@ -70,6 +70,56 @@ namespace TestSuite.TestEngine.Test
 
         [TestMethod]
         [ExpectedException(typeof(MethodExecutionException))]
+        public void TestWrongParamTypesWithNull_ThrowsException()
+        {
+            // Arrange
+            testEngine.LoadAssembly(@"TestSuite.TestEngine.Test.dll");
+            testEngine.SetClass("TestSuite.TestEngine.Test.MockClass, TestSuite.TestEngine.Test");
+
+            // Act
+            var method = new Method("Method1");
+            method.Parameters["param1"] = "string";
+            method.Parameters["param2"] = null;
+            testEngine.MethodExecution.Execute(method);
+
+            // Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MethodExecutionException))]
+        public void TestWrongParamNames_ThrowsException()
+        {
+            // Arrange
+            testEngine.LoadAssembly(@"TestSuite.TestEngine.Test.dll");
+            testEngine.SetClass("TestSuite.TestEngine.Test.MockClass, TestSuite.TestEngine.Test");
+
+            // Act
+            var method = new Method("Method1");
+            method.Parameters["param1"] = "string";
+            method.Parameters["param3"] = 42;
+            testEngine.MethodExecution.Execute(method);
+
+            // Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MethodExecutionException))]
+        public void TestWrongParamCount_ThrowsException()
+        {
+            // Arrange
+            testEngine.LoadAssembly(@"TestSuite.TestEngine.Test.dll");
+            testEngine.SetClass("TestSuite.TestEngine.Test.MockClass, TestSuite.TestEngine.Test");
+
+            // Act
+            var method = new Method("Method1");
+            method.Parameters["param1"] = "string";
+            testEngine.MethodExecution.Execute(method);
+
+            // Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MethodExecutionException))]
         public void TestMethodNotFound_ThrowsException()
         {
             // Arrange

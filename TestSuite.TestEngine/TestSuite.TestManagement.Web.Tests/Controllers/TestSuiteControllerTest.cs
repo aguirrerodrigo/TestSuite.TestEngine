@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -32,7 +34,38 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             var result = controller.Index() as ViewResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            var model = result.ViewData.Model as TestSuiteViewModel;
+            model.ShouldNotBeNull();
+        }
+
+        [TestMethod]
+        public void Index_ShouldSetModelFromTempData()
+        {
+            // Arrange
+            var viewModel = new TestSuiteViewModel();
+            controller.TempData["Model"] = viewModel;
+
+            // Act
+            var result = controller.Index() as ViewResult;
+
+            // Assert
+            var model = result.ViewData.Model;
+            model.ShouldEqual(viewModel);
+        }
+
+        [TestMethod]
+        public void Index_ShouldAddErrorToModelState()
+        {
+            // Arrange
+            controller.TempData["Error"] = "error";
+
+            // Act
+            controller.Index();
+
+            // Assert
+            controller.ModelState[string.Empty].Errors
+                .Select(e => e.ErrorMessage)
+                .ShouldContain("error");
         }
 
         [TestMethod]
@@ -51,16 +84,17 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
         }
 
         [TestMethod]
-        public void CreateTestCase()
+        public void CreateTestCase_ShouldRedirectToIndex()
         {
             // Arrange
             var name = "SampleTestCase";
 
             // Act
-            var result = controller.CreateTestCase(name) as ActionResult;
+            var result = controller.CreateTestCase(name) as RedirectToRouteResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            result.RouteValues["action"].ShouldEqual("Index");
+            result.RouteValues["controller"].ShouldBeNull();
         }
 
         [TestMethod]
@@ -76,6 +110,22 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             Mock.Get(testCaseRepository)
                 .Verify(r => r.Create(
                     It.Is<TestCase>(tc => tc.Name == "SampleTestCase")), Times.Once());
+        }
+
+        [TestMethod]
+        public void CreateTestCase_ShouldSetError_OnError()
+        {
+            // Arrange
+            Mock.Get(testCaseRepository)
+                .Setup(r => r.Create(It.IsAny<TestCase>()))
+                .Throws<DivideByZeroException>();
+
+            // Act
+            controller.CreateTestCase("testCaseName");
+
+            // Assert
+            controller.TempData["Error"].ShouldNotBeNull();
+            controller.TempData["Model"].ShouldNotBeNull();
         }
     }
 }

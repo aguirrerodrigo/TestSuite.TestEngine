@@ -1,10 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Should;
 using TestSuite.TestManagement.Repositories;
 using TestSuite.TestManagement.Web.Controllers;
-using Should;
-using System.Linq;
+using TestSuite.TestManagement.Web.ViewModels;
 
 namespace TestSuite.TestManagement.Web.Tests.Controllers
 {
@@ -35,6 +37,40 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
         }
 
         [TestMethod]
+        public void Index_ShouldAutoSelectDefinition_WhenDefinitionNameIsNull()
+        {
+            // Arrange
+            var definitions = new List<TestCaseDefinition>();
+            definitions.Add(new TestCaseDefinition() { Name = "definition1" });
+            definitions.Add(new TestCaseDefinition() { Name = "definition2" });
+            testCase.Definitions = definitions;
+
+            // Act
+            controller.Index("testCase", null);
+            var model = controller.ViewData.Model as TestCaseViewModel;
+
+            // Assert
+            model.Definitions.Any(d => d.IsSelected).ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void Index_ShouldSelectDefinition()
+        {
+            // Arrange
+            var definitions = new List<TestCaseDefinition>();
+            definitions.Add(new TestCaseDefinition() { Name = "definition1" });
+            definitions.Add(new TestCaseDefinition() { Name = "definition2" });
+            testCase.Definitions = definitions;
+
+            // Act
+            controller.Index("testCase", "definition2");
+            var model = controller.ViewData.Model as TestCaseViewModel;
+
+            // Assert
+            model.Definitions.First(d => d.Name == "definition2").IsSelected.ShouldBeTrue();
+        }
+
+        [TestMethod]
         public void UpdateDefinition()
         {
             // Arrange
@@ -42,10 +78,10 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             string definition = "definition";
 
             // Act
-            var result = controller.UpdateDefinition(testCaseName, definition) as ActionResult;
+            var result = controller.UpdateDefinition(testCaseName, definition) as RedirectToRouteResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            result.RouteValues["action"].ShouldEqual("Index");
         }
 
         [TestMethod]
@@ -59,9 +95,8 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             controller.UpdateDefinition(testCaseName, definition);
 
             // Assert
-            testCase.Definitions.Any(d => d.Definition == definition).ShouldBeTrue();
             Mock.Get(testCaseRepository)
-                .Verify(r => r.AddDefinition(It.IsAny<string>(), It.Is<TestCaseDefinition>(d => d.Definition == definition)));
+                .Verify(r => r.AddDefinition(testCaseName, It.Is<TestCaseDefinition>(d => d.Definition == definition)));
         }
     }
 }

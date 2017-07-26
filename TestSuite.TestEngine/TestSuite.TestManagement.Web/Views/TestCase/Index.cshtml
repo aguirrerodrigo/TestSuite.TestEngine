@@ -34,7 +34,7 @@
         {
             if (definition.IsSelected)
             {
-                <a class="list-group-item list-group-item-info" href="#">
+                <a class="list-group-item list-group-item-info" href="@Url.Action("Index", "TestCase", new { testCase = Model.Name, definitionName = definition.Name })">
                     <span>@definition.Name</span>
                 </a>
             }

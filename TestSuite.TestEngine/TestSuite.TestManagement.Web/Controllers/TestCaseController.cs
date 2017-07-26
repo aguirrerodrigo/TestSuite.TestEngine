@@ -37,7 +37,8 @@ namespace TestSuite.TestManagement.Web.Controllers
         [ValidateInput(false)]
         public ActionResult UpdateDefinition(string testCase, string definition)
         {
-            TestCase tc = this.repository.Get(testCase);
+            TestCase tc = new TestCase();
+            tc.Name = testCase;
             tc.UpdateDefinition(definition, this.repository);
 
             return RedirectToAction("Index", new { testCase = testCase });

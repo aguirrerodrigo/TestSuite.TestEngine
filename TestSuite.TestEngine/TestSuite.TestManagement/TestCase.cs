@@ -42,7 +42,7 @@ namespace TestSuite.TestManagement
         {
             var timeStamp = DateTime.Now.ToTimeStamp();
             var testCaseDefinition = new TestCaseDefinition();
-            testCaseDefinition.Name = string.Format($"definition_{timeStamp}");
+            testCaseDefinition.Name = string.Format($"Definition_{timeStamp}");
             testCaseDefinition.Definition = definition;
 
             repository.AddDefinition(this.Name, testCaseDefinition);

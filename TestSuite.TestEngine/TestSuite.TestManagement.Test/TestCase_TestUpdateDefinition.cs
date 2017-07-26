@@ -29,6 +29,19 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
+        public void Test_ShouldAutoSetName()
+        {
+            // Arrange
+            testCase.Name = "TestCaseName";
+
+            // Act
+            testCase.UpdateDefinition("TestDefinition", testCaseRepository);
+
+            // Assert
+            testCase.Definitions.First().Name.ShouldNotBeNull();
+        }
+
+        [TestMethod]
         public void Test_ShouldAddDefinitionAsFirstItem()
         {
             // Arrange

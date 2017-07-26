@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TestSuite.TestManagement.Repositories;
@@ -51,7 +50,8 @@ namespace TestSuite.TestManagement.FileSystemRepository
 
         public TestCase Get(string testCaseName)
         {
-            var dir = this.fileSystemRepository.GetDirectory(testCaseName);
+            var dirPath = Path.Combine(this.path, testCaseName);
+            var dir = this.fileSystemRepository.GetDirectory(dirPath);
             var testCase = MapTestCase(dir);
             testCase.Definitions = GetTestCaseDefinitions(testCaseName);
 

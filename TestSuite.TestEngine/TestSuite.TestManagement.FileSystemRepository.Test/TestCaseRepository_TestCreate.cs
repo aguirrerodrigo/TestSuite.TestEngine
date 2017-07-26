@@ -16,7 +16,7 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
         {
             this.directory = new Directory();
             this.fileSystemRepository = Mock.Of<IFileSystemRepository>(r => r.CreateDirectory(It.IsAny<string>()) == this.directory);
-            this.testCaseRepository = new TestCaseRepository(string.Empty, fileSystemRepository);
+            this.testCaseRepository = new TestCaseRepository("Root", fileSystemRepository);
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
 
             // Assert
             Mock.Get(fileSystemRepository)
-                .Verify(r => r.CreateDirectory("TestCase01"), Times.Once());
+                .Verify(r => r.CreateDirectory("Root\\TestCase01"), Times.Once());
         }
 
         [TestMethod]
