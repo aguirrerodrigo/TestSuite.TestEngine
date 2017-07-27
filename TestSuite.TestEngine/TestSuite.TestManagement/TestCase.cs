@@ -69,9 +69,9 @@ namespace TestSuite.TestManagement
             return testCaseExecution;
         }
 
-        private List<TestStep> GetTestSteps(string definition, ITestStepFactory factory)
+        private TestStepCollection GetTestSteps(string definition, ITestStepFactory factory)
         {
-            List<TestStep> steps = new List<TestStep>();
+            var steps = new TestStepCollection();
             var split = definition.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach(var line in split)
             {

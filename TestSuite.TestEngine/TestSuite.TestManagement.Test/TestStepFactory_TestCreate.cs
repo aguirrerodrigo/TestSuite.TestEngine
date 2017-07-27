@@ -74,7 +74,7 @@ namespace TestSuite.TestManagement.Test
             // Assert
             step.ShouldNotBeNull();
             step.MethodName.ShouldBeNull();
-            step.Parameters.ShouldBeNull();
+            step.Parameters.ShouldBeEmpty();
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace TestSuite.TestManagement.Test
 
             // Assert
             step.MethodName.ShouldEqual("ExecuteMethod");
-            step.Parameters.ShouldBeNull();
+            step.Parameters.ShouldBeEmpty();
         }
 
         [TestMethod]
@@ -102,7 +102,10 @@ namespace TestSuite.TestManagement.Test
 
             // Assert
             step.MethodName.ShouldEqual("ExecuteMethod");
-            step.Parameters.ShouldEqual("@param1=2 @param3=test string");
+            step.Parameters[0].Name.ShouldEqual("param1");
+            step.Parameters[0].Value.ShouldEqual("2");
+            step.Parameters[1].Name.ShouldEqual("param3");
+            step.Parameters[1].Value.ShouldEqual("test string");
         }
 
         [TestMethod]
@@ -116,7 +119,27 @@ namespace TestSuite.TestManagement.Test
 
             // Assert
             step.MethodName.ShouldEqual("Execute This Method");
-            step.Parameters.ShouldEqual("@param1=2 @param3=test string");
+            step.Parameters[0].Name.ShouldEqual("param1");
+            step.Parameters[0].Value.ShouldEqual("2");
+            step.Parameters[1].Name.ShouldEqual("param3");
+            step.Parameters[1].Value.ShouldEqual("test string");
+        }
+
+        [TestMethod]
+        public void TestParseTestStep_DuplicateParameterNames()
+        {
+            // Arrange
+            var command = "!testStep Execute This Method @param1=2 @param1=test string";
+
+            // Act
+            var step = testFactory.Create(command) as ExecuteMethodStep;
+
+            // Assert
+            step.MethodName.ShouldEqual("Execute This Method");
+            step.Parameters[0].Name.ShouldEqual("param1");
+            step.Parameters[0].Value.ShouldEqual("2");
+            step.Parameters[1].Name.ShouldEqual("param1");
+            step.Parameters[1].Value.ShouldEqual("test string");
         }
 
         [TestMethod]
@@ -131,7 +154,7 @@ namespace TestSuite.TestManagement.Test
             // Assert
             step.ShouldNotBeNull();
             step.MethodName.ShouldBeNull();
-            step.Parameters.ShouldBeNull();
+            step.Parameters.ShouldBeEmpty();
         }
 
         [TestMethod]
@@ -145,7 +168,7 @@ namespace TestSuite.TestManagement.Test
 
             // Assert
             step.MethodName.ShouldEqual("ExecuteMethod");
-            step.Parameters.ShouldBeNull();
+            step.Parameters.ShouldBeEmpty();
         }
 
         [TestMethod]
@@ -159,7 +182,10 @@ namespace TestSuite.TestManagement.Test
 
             // Assert
             step.MethodName.ShouldEqual("ExecuteMethod");
-            step.Parameters.ShouldEqual("@param1=2 @param3=test string");
+            step.Parameters[0].Name.ShouldEqual("param1");
+            step.Parameters[0].Value.ShouldEqual("2");
+            step.Parameters[1].Name.ShouldEqual("param3");
+            step.Parameters[1].Value.ShouldEqual("test string");
         }
 
         [TestMethod]
@@ -173,7 +199,27 @@ namespace TestSuite.TestManagement.Test
 
             // Assert
             step.MethodName.ShouldEqual("Execute This Method");
-            step.Parameters.ShouldEqual("@param1=2 @param3=test string");
+            step.Parameters[0].Name.ShouldEqual("param1");
+            step.Parameters[0].Value.ShouldEqual("2");
+            step.Parameters[1].Name.ShouldEqual("param3");
+            step.Parameters[1].Value.ShouldEqual("test string");
+        }
+
+        [TestMethod]
+        public void TestParseTestStepWithShortcut_DuplicateParameterNames()
+        {
+            // Arrange
+            var command = "#  Execute This Method @param1=2 @param1=test string";
+
+            // Act
+            var step = testFactory.Create(command) as ExecuteMethodStep;
+
+            // Assert
+            step.MethodName.ShouldEqual("Execute This Method");
+            step.Parameters[0].Name.ShouldEqual("param1");
+            step.Parameters[0].Value.ShouldEqual("2");
+            step.Parameters[1].Name.ShouldEqual("param1");
+            step.Parameters[1].Value.ShouldEqual("test string");
         }
 
         [TestMethod]

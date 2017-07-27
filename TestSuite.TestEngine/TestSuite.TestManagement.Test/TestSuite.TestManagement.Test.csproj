@@ -57,6 +57,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TemplateClassVisitor_TestBuild.cs" />
     <Compile Include="TestCaseExecution_TestFromXml.cs" />
     <Compile Include="TestCase_TestExecutions.cs" />
     <Compile Include="TestCase_TestDefinitions.cs" />

@@ -8,6 +8,6 @@ namespace TestSuite.TestManagement
     [XmlInclude(typeof(SetClassStep))]
     public abstract class TestStep
     {
-        public virtual void Visit(ITestStepVisitor visitor) { }
+        public abstract void Accept(ITestStepVisitor visitor);
     }
 }

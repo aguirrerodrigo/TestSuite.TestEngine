@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TestSuite.TestManagement
 {
@@ -52,12 +53,42 @@ namespace TestSuite.TestManagement
             if (commandParameter != null)
             {
                 var split = commandParameter.Split(new string[] { "@" }, 2, StringSplitOptions.RemoveEmptyEntries);
-                if (split.Length > 0)
+                if(split.Length > 0)
                     step.MethodName = split[0].Trim();
                 if (split.Length > 1)
-                    step.Parameters = "@" + split[1].Trim();
+                {
+                    step.Parameters = ParseMethodParameters(split[1]);
+                }
             }
             return step;
+        }
+
+        private List<MethodParameter> ParseMethodParameters(string methodParameters)
+        {
+            var result = new List<MethodParameter>();
+            var paramsSplit = methodParameters.Split(new string[] { "@" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach(var param in paramsSplit)
+            {
+                var name = default(string);
+                var value = default(string);
+
+                var split = param.Split(new string[] { "=" }, 2, StringSplitOptions.RemoveEmptyEntries);
+                if(split.Length > 0)
+                    name = split[0].Trim();
+                if (split.Length > 1)
+                    value = split[1].Trim();
+
+                if (name != null)
+                {
+                    var methodParam = new MethodParameter();
+                    methodParam.Name = name;
+                    methodParam.Value = value;
+
+                    result.Add(methodParam);
+                }
+            }
+
+            return result;
         }
 
         private string ParseCommandParameter(string command)

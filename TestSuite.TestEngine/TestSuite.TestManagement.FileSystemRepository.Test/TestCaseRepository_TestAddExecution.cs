@@ -29,7 +29,7 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
             testCaseExecution.Ended = DateTime.Now.AddDays(1);
             testCaseExecution.Started = DateTime.Now;
             testCaseExecution.Status = ExecutionStatus.Failed;
-            testCaseExecution.Steps = new List<TestStep>()
+            testCaseExecution.Steps = new TestStepCollection()
             {
                 new LoadAssemblyStep(),
                 new SetClassStep(),

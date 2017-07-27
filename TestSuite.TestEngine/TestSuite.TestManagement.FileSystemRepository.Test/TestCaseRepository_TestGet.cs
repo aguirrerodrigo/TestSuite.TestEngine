@@ -83,7 +83,6 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
             execution.CreatedDateTime.ShouldEqual(file.CreatedDateTime);
         }
 
-
         private File NewFile(string fileName, string contents, DateTime createdDateTime)
         {
             var result = new File();

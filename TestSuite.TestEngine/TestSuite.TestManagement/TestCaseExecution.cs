@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -37,13 +38,14 @@ namespace TestSuite.TestManagement
         public DateTime? Started { get; set; }
         public DateTime? Ended { get; set; }
         public ExecutionStatus Status { get; set; }
-        public List<TestStep> Steps { get; set; } = new List<TestStep>();
+        public TestStepCollection Steps { get; set; } = new TestStepCollection();
 
         public TestCaseExecution() { }
 
         public string ToXml()
         {
             var result = default(string);
+
             var xmlSerializer = new XmlSerializer(typeof(TestCaseExecution));
             using (var stringWriter = new StringWriter())
             using (var writer = XmlWriter.Create(stringWriter))
