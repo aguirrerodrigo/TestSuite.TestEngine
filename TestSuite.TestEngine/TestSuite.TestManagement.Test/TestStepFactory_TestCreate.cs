@@ -106,6 +106,20 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
+        public void TestParseTestStep_MethodWithSpaces()
+        {
+            // Arrange
+            var command = "!testStep Execute This Method @param1=2 @param3=test string";
+
+            // Act
+            var step = testFactory.Create(command) as ExecuteMethodStep;
+
+            // Assert
+            step.MethodName.ShouldEqual("Execute This Method");
+            step.Parameters.ShouldEqual("@param1=2 @param3=test string");
+        }
+
+        [TestMethod]
         public void TestParseStepFromShortcut_NoParam()
         {
             // Arrange
@@ -145,6 +159,20 @@ namespace TestSuite.TestManagement.Test
 
             // Assert
             step.MethodName.ShouldEqual("ExecuteMethod");
+            step.Parameters.ShouldEqual("@param1=2 @param3=test string");
+        }
+
+        [TestMethod]
+        public void TestParseTestStepWithShortcut_MethodWithSpaces()
+        {
+            // Arrange
+            var command = "#Execute This Method @param1=2 @param3=test string";
+
+            // Act
+            var step = testFactory.Create(command) as ExecuteMethodStep;
+
+            // Assert
+            step.MethodName.ShouldEqual("Execute This Method");
             step.Parameters.ShouldEqual("@param1=2 @param3=test string");
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using IoDirectory = System.IO.Directory;
@@ -57,22 +56,25 @@ namespace TestSuite.TestManagement.FileSystemRepository
 
         public File CreateFile(string filePath, string contents)
         {
-            if(IoFile.Exists(filePath))
-                throw new FileExistsException($"File '{filePath}' already exists.");
+            lock (filePath)
+            {
+                if (IoFile.Exists(filePath))
+                    throw new FileExistsException($"File '{filePath}' already exists.");
 
-            var dirPath = Path.GetDirectoryName(filePath);
-            IoDirectory.CreateDirectory(dirPath);
+                var dirPath = Path.GetDirectoryName(filePath);
+                IoDirectory.CreateDirectory(dirPath);
 
-            IoFile.WriteAllText(filePath, contents, Encoding.Unicode);
-            var fileInfo = new FileInfo(filePath);
+                IoFile.WriteAllText(filePath, contents, Encoding.Unicode);
+                var fileInfo = new FileInfo(filePath);
 
-            var file = new File();
-            file.CreatedDateTime = fileInfo.CreationTime;
-            file.Name = fileInfo.Name;
-            file.Path = fileInfo.FullName;
-            file.Contents = contents;
+                var file = new File();
+                file.CreatedDateTime = fileInfo.CreationTime;
+                file.Name = fileInfo.Name;
+                file.Path = fileInfo.FullName;
+                file.Contents = contents;
 
-            return file;
+                return file;
+            }
         }
 
         public IEnumerable<File> FetchAllFiles(string path)

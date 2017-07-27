@@ -8,7 +8,7 @@
 </div>
 
 @{ var hasDefinitions = Model.Definitions.Any(); }
-<div class="@(hasDefinitions ? "col-md-9" : "col-md-12")">
+<div class="@(hasDefinitions ? "col-md-8" : "col-md-12")">
     @using (var form = Html.BeginForm("UpdateDefinition", "TestCase", FormMethod.Post, new { testCase = Model.Name }))
     {
         <div class="form-group">
@@ -28,7 +28,7 @@
 
 @if (hasDefinitions)
 {
-    <div class="col-md-3">
+    <div class="col-md-4">
         @Html.LabelFor(m => m.Definitions, new { @class = "control-label" })
         <div class="list-group">
             @foreach (var definition in Model.Definitions)

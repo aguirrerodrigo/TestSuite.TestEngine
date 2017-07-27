@@ -51,11 +51,11 @@ namespace TestSuite.TestManagement
             var step = new ExecuteMethodStep();
             if (commandParameter != null)
             {
-                var split = commandParameter.Split(new string[] { " " }, 2, StringSplitOptions.RemoveEmptyEntries);
+                var split = commandParameter.Split(new string[] { "@" }, 2, StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length > 0)
-                    step.MethodName = split[0];
+                    step.MethodName = split[0].Trim();
                 if (split.Length > 1)
-                    step.Parameters = split[1];
+                    step.Parameters = "@" + split[1].Trim();
             }
             return step;
         }
@@ -64,7 +64,7 @@ namespace TestSuite.TestManagement
         {
             var split = command.Split(new string[] { " " }, 2, StringSplitOptions.RemoveEmptyEntries);
             if (split.Length > 1)
-                return split[1];
+                return split[1].Trim();
             else
                 return null;
         }

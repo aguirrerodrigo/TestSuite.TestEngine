@@ -57,6 +57,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileSystemRepository_TestLockOnFileName.cs" />
     <Compile Include="TestCaseRepository_TestAddDefinition.cs" />
     <Compile Include="TestCaseRepository_TestAddExecution.cs" />
     <Compile Include="TestCaseRepository_TestCreate.cs" />
