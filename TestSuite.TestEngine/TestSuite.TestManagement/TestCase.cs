@@ -72,12 +72,15 @@ namespace TestSuite.TestManagement
         private TestStepCollection GetTestSteps(string definition, ITestStepFactory factory)
         {
             var steps = new TestStepCollection();
-            var split = definition.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach(var line in split)
+            if (!string.IsNullOrWhiteSpace(definition))
             {
-                var testStep = factory.Create(line);
-                if (testStep != null)
-                    steps.Add(testStep);
+                var split = definition.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in split)
+                {
+                    var testStep = factory.Create(line);
+                    if (testStep != null)
+                        steps.Add(testStep);
+                }
             }
 
             return steps;

@@ -1,0 +1,59 @@
+﻿@using TestSuite.TestManagement.Web.Extensions
+@model TestSuite.TestManagement.Web.ViewModels.TestCaseViewModel
+@{
+    ViewBag.Title = "Test Case: " + Model.Name;
+}
+
+<div class="page-header">
+    <h1>Test Case: @Model.Name</h1>
+</div>
+
+@{ var hasDefinitions = Model.Definitions.Any(); }
+<div class="@(hasDefinitions ? "col-md-8" : "col-md-12")">
+    @using (var form = Html.BeginForm("UpdateDefinition", "TestCase", FormMethod.Post, new { testCase = Model.Name }))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.SelectedDefinition.Definition, new { @class = "control-label" })
+            @Html.TextArea("definition", Model.SelectedDefinition?.Definition, new { @class = "form-control no-max-width", rows = 20 })
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    @if (Model.Results.Any())
+                    {
+                        <a href="@Url.Action("Index", new { testCase = Model.Name })" class="btn btn-danger">Cancel</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "TestSuite")" class="btn btn-danger">Cancel</a>
+                    }
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Update" class="btn btn-primary no-max-width" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (hasDefinitions)
+{
+    <div class="col-md-4">
+        @Html.LabelFor(m => m.Definitions, new { @class = "control-label" })
+        <div class="list-group">
+            @foreach (var definition in Model.Definitions)
+            {
+                if (definition.IsSelected)
+                {
+                    <a class="list-group-item active" href="@Url.Action("GetDefinition", "TestCase", new { testCase = Model.Name, definitionName = definition.Name })">
+                        <span>@definition.CreatedDateTime.Format()</span>
+                    </a>
+                }
+                else
+                {
+                    <a class="list-group-item" href="@Url.Action("GetDefinition", "TestCase", new { testCase = Model.Name, definitionName = definition.Name })">
+                        <span>@definition.CreatedDateTime.Format()</span>
+                    </a>
+                }
+            }
+        </div>
+    </div>
+}

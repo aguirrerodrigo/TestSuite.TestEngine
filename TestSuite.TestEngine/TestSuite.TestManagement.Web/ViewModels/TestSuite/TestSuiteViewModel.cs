@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace TestSuite.TestManagement.Web.ViewModels
 {
@@ -11,15 +12,18 @@ namespace TestSuite.TestManagement.Web.ViewModels
         [Required(ErrorMessage = @"Test case is required.")]
         public string TestCase { get; set; }
 
-        public IEnumerable<TestCaseViewModel> TestCases { get; set; }
+        public IEnumerable<TestCaseSummaryViewModel> TestCases { get; set; }
 
-        public TestSuiteViewModel()
-        {
-        }
+        public TestSuiteViewModel() { }
 
         public TestSuiteViewModel(string testCase)
         {
             this.TestCase = testCase;
+        }
+
+        public void SetSummary(IEnumerable<TestCase> testCases)
+        {
+            this.TestCases = testCases.Select(tc => new TestCaseSummaryViewModel(tc));
         }
     }
 }

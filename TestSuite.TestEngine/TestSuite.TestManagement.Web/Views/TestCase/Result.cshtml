@@ -1,0 +1,101 @@
+﻿@using TestSuite.TestManagement.Web.Extensions
+@model TestSuite.TestManagement.Web.ViewModels.TestCaseViewModel
+@{
+    ViewBag.Title = "Test Case: " + Model.Name;
+}
+
+<div class="page-header">
+    <h1>Test Case: @Model.Name</h1>
+</div>
+
+<div class="col-md-8">
+    <div class="row">
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.SelectedResult.Status, new { @class = "control-label col-md-3" })
+            <p class="uneditable-input col-md-9 text-@(Model.SelectedResult?.Status.ToCss())">
+                <span class="fa fa-@(Model.SelectedResult?.Status.ToCssIcon())-circle"></span>
+                <strong>@(Model.SelectedResult?.Status)</strong>
+            </p>
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.SelectedResult.Duration, new { @class = "control-label col-md-3" })
+            <p class="uneditable-input col-md-9">@(Model.SelectedResult?.Duration)</p>
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.SelectedResult.Started, new { @class = "control-label col-md-3" })
+            <p class="uneditable-input col-md-9">@(Model.SelectedResult?.Started)</p>
+        </div>
+        <div class="col-md-6">
+            @Html.LabelFor(m => m.SelectedResult.Ended, new { @class = "control-label col-md-3" })
+            <p class="uneditable-input col-md-9">@(Model.SelectedResult?.Ended)</p>
+        </div>
+    </div>
+
+    <br/>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#result">Result</a></li>
+        <li><a data-toggle="tab" href="#template">Template</a></li>
+        <a href="@Url.Action("GetDefinition", new { testCase = Model.Name })" class="btn btn-info pull-right">Definition</a>
+    </ul>
+
+    <div class="tab-content">
+        <div id="result" class="tab-pane fade in active">
+            <h3>RESULT</h3>
+            <p>Some content.</p>
+        </div>
+        <div id="template" class="tab-pane fade">
+            <br />
+            @Html.TextAreaFor(m => m.SelectedResult.Template, new { @class = "form-control no-max-width template", rows = 20, @readonly="readonly"})
+            <input type="button" value="Copy" class="btn btn-primary btn-block no-max-width copy-template ">
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    @Html.LabelFor(m => m.Results, new { @class = "control-label" })
+    <div class="list-group">
+        @foreach (var result in Model.Results)
+        {
+            if (result.IsSelected)
+            {
+                <a class="list-group-item active" href="@Url.Action("GetResult", "TestCase", new { testCase = Model.Name, resultName = result.Name })">
+                    <span class="fa fa-@result.Status.ToCssIcon()-circle" title="@result.Status"></span>
+                    <span>@result.CreatedDateTime.Format()</span>
+                </a>
+            }
+            else
+            {
+                <a class="list-group-item list-group-item-@result.Status.ToCss()" href="@Url.Action("GetResult", "TestCase", new { testCase = Model.Name, resultName = result.Name })">
+                    <span class="fa fa-@result.Status.ToCssIcon()-circle text-@result.Status.ToCss()" title="@result.Status"></span>
+                    <span>@result.CreatedDateTime.Format()</span>
+                </a>
+            }
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(function () {
+            $('.copy-template').click(function () {
+                $('.template').select();
+                document.execCommand('copy');
+
+                $(this)
+                    .attr('value', 'Copied template to clipboard')
+                    .attr('disabled', 'disabled')
+                    .addClass('btn-success')
+                    .removeClass('btn-primary');
+
+                setTimeout(function () {
+                    $('.copy-template')
+                        .attr('value', 'Copy')
+                        .removeAttr('disabled')
+                        .addClass('btn-primary')
+                        .removeClass('btn-success');
+                }, 2000);
+            });
+        });
+    </script>
+}

@@ -48,7 +48,6 @@ namespace TestSuite.TestManagement
                 builder.AppendLine("\t[TestClass]");
                 builder.AppendLine($"\tpublic class {this.BuildClassName()}");
                 builder.AppendLine("\t{");
-                builder.AppendLine();
                     builder.AppendLine("\t\t[TestMethod]");
                     builder.AppendLine("\t\tpublic void Test()");
                     builder.AppendLine("\t\t{");

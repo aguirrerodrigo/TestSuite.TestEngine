@@ -1,4 +1,5 @@
 ﻿@using TestSuite.TestManagement
+@using TestSuite.TestManagement.Web.Extensions
 @model TestSuite.TestManagement.Web.ViewModels.TestSuiteViewModel
 @{
     ViewBag.Title = "Test Cases";
@@ -16,7 +17,7 @@
 {
     <div class="form-group">
         @Html.LabelFor(m => m.TestCase, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.TestCase, new { @class = "form-control" })
+        @Html.TextBox("name", Model.TestCase, new { @class = "form-control" })
     </div>
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-primary" />
@@ -29,38 +30,11 @@
     <div class="list-group">
     @foreach (var testCase in Model.TestCases)
     {
-        switch (testCase.Status)
-        {
-            case ExecutionStatus.New:
-            default:
-                <a class="list-group-item" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
-                    <span class="fa fa-question-circle text-muted" title="New"></span>
-                    <span>@testCase.Name</span>
-                    <span class="badge badge-default badge-pill" title="Executions">@testCase.ExecutionCount</span>
-                </a>
-                break;             
-            case ExecutionStatus.InProgress:
-                <a class="list-group-item list-group-item-info" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
-                    <span class="fa fa-play-circle text-info" title="InProgress"></span>
-                    <span>@testCase.Name</span>
-                    <span class="badge badge-default badge-pill" title="Executions">@testCase.ExecutionCount</span>
-                </a>
-                break;
-            case ExecutionStatus.Passed:
-                <a class="list-group-item list-group-item-success" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
-                    <span class="fa fa-check-circle text-success" title="Passed"></span>
-                    <span>@testCase.Name</span>
-                    <span class="badge badge-default badge-pill" title="Executions">@testCase.ExecutionCount</span>
-                </a>
-                break;
-            case ExecutionStatus.Failed:
-                <a class="list-group-item list-group-item-danger" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
-                    <span class="fa fa-times-circle" title="Failed"></span>
-                    <span>@testCase.Name</span>
-                    <span class="badge badge-default badge-pill" title="Executions">@testCase.ExecutionCount</span>
-                </a>
-                break;
-        }
+        <a class="list-group-item list-group-item-@testCase.Status.ToCss()" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
+            <span class="fa fa-@testCase.Status.ToCssIcon()-circle text-@testCase.Status.ToCss()" title="@testCase.Status"></span>
+            <span>@testCase.Name</span>
+            <span class="badge badge-default badge-pill" title="Results">@testCase.ResultCount</span>
+        </a>
     }
     </div>
 }

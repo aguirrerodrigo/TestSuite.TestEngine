@@ -20,29 +20,58 @@ namespace TestSuite.TestManagement.Web.Controllers
         {
         }
 
-        [Route("{testCase}/{definitionName?}")]
-        public ActionResult Index(string testCase, string definitionName)
+        [Route("{testCase}")]
+        public ActionResult Index(string testCase)
         {
-            TestCase tc = this.repository.Get(testCase);
+            var tc = this.repository.Get(testCase);
+            if (tc.Executions.Any())
+                return RedirectToAction(nameof(GetResult), new { testCase = testCase });
+            else
+                return RedirectToAction(nameof(UpdateDefinition), new { testCase = testCase });
+        }
 
-            if (string.IsNullOrEmpty(definitionName) && tc.Definitions.Any())
+        [Route("{testCase}/Definition/{definitionName?}")]
+        public ActionResult GetDefinition(string testCase, string definitionName)
+        {
+            var tc = this.repository.Get(testCase);
+
+            if (string.IsNullOrWhiteSpace(definitionName) && tc.Definitions.Any())
                 definitionName = tc.Definitions.First().Name;
 
-            var model = new TestCaseViewModel(tc, definitionName);
-            return View(model);
+            var model = new TestCaseViewModel(tc);
+            model.SelectDefinition(definitionName);
+
+            return View("Definition", model);
         }
 
         [HttpPost]
-        [Route("TestCases/{testCase}/Update")]
+        [Route("{testCase}/Definition")]
         [ValidateInput(false)]
         public ActionResult UpdateDefinition(string testCase, string definition)
         {
-            TestCase tc = new TestCase();
+            var tc = new TestCase();
             tc.Name = testCase;
             tc.AddDefinition(definition, this.repository);
             tc.AddExecution(definition, this.repository);
 
-            return RedirectToAction("Index", new { testCase = testCase });
+            return RedirectToAction(nameof(Index), new { testCase = testCase });
+        }
+
+        [Route("{testCase}/Result/{resultName?}")]
+        public ActionResult GetResult(string testCase, string resultName)
+        {
+            var tc = this.repository.Get(testCase);
+
+            if (!tc.Executions.Any())
+                return RedirectToAction(nameof(Index), new { testCase = testCase });
+
+            if (string.IsNullOrWhiteSpace(resultName))
+                resultName = tc.Executions.First().Name;
+
+            var model = new TestCaseViewModel(tc);
+            model.SelectResult(resultName);
+
+            return View("Result", model);
         }
     }
 }

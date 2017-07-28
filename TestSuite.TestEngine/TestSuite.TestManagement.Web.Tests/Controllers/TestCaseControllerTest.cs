@@ -25,19 +25,19 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
         }
 
         [TestMethod]
-        public void Index()
+        public void GetDefinition()
         {
             // Arrange
 
             // Act
-            var result = controller.Index("testCase", null) as ViewResult;
+            var result = controller.GetDefinition("testCase", null) as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public void Index_ShouldAutoSelectDefinition_WhenDefinitionNameIsNull()
+        public void GetDefinition_ShouldAutoSelectDefinition_WhenDefinitionNameIsNull()
         {
             // Arrange
             var definitions = new List<TestCaseDefinition>();
@@ -46,7 +46,7 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             testCase.Definitions = definitions;
 
             // Act
-            controller.Index("testCase", null);
+            controller.GetDefinition("testCase", null);
             var model = controller.ViewData.Model as TestCaseViewModel;
 
             // Assert
@@ -54,7 +54,7 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
         }
 
         [TestMethod]
-        public void Index_ShouldSelectDefinition()
+        public void GetDefinition_ShouldSelectDefinition()
         {
             // Arrange
             var definitions = new List<TestCaseDefinition>();
@@ -63,7 +63,7 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             testCase.Definitions = definitions;
 
             // Act
-            controller.Index("testCase", "definition2");
+            controller.GetDefinition("testCase", "definition2");
             var model = controller.ViewData.Model as TestCaseViewModel;
 
             // Assert
