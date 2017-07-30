@@ -23,15 +23,11 @@ namespace TestSuite.TestManagement.Web.Controllers
         [Route("{testCase}")]
         public ActionResult Index(string testCase)
         {
-            var tc = this.repository.Get(testCase);
-            if (tc.Executions.Any())
-                return RedirectToAction(nameof(GetResult), new { testCase = testCase });
-            else
-                return RedirectToAction(nameof(UpdateDefinition), new { testCase = testCase });
+            return GetResult(testCase, null);
         }
 
         [Route("{testCase}/Definition/{definitionName?}")]
-        public ActionResult GetDefinition(string testCase, string definitionName)
+        public ActionResult GetDefinition(string testCase, string definitionName = null)
         {
             var tc = this.repository.Get(testCase);
 
@@ -56,14 +52,14 @@ namespace TestSuite.TestManagement.Web.Controllers
 
             return RedirectToAction(nameof(Index), new { testCase = testCase });
         }
-
+        
         [Route("{testCase}/Result/{resultName?}")]
-        public ActionResult GetResult(string testCase, string resultName)
+        public ActionResult GetResult(string testCase, string resultName = null)
         {
             var tc = this.repository.Get(testCase);
 
             if (!tc.Executions.Any())
-                return RedirectToAction(nameof(Index), new { testCase = testCase });
+                return RedirectToAction(nameof(GetDefinition), new { testCase = testCase });
 
             if (string.IsNullOrWhiteSpace(resultName))
                 resultName = tc.Executions.First().Name;

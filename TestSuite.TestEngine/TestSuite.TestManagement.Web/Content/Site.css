@@ -27,3 +27,7 @@ textarea {
 .no-max-width {
     max-width: none;
 }
+
+.method-step {
+    margin-bottom: 4px;
+}

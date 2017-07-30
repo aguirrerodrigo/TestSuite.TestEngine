@@ -1,0 +1,16 @@
+﻿@using TestSuite.TestManagement.Web.Extensions
+@model TestSuite.TestManagement.SetClassStep
+
+<div class="row">
+    <div class="form-group col-sm-12">
+        <span class="col-sm-2 control-label"><strong>Class</strong></span>
+        <div class="col-sm-10 text-@Model.Status.ToCss()">
+            <span class="fa fa-@Model.Status.ToCssIcon()-circle" title="@Model.Status"></span>
+            <span>@Model.QualifiedName</span>
+            @if (!string.IsNullOrEmpty(Model.Error))
+            {
+                <p class="alert-danger">@Model.Error</p>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+﻿@using TestSuite.TestManagement.Web.Extensions
+@model TestSuite.TestManagement.Web.ViewModels.ExecuteMethodStepHtmlBuilder
+
+@if (Model.Steps.Any())
+{
+    var headerRendered = false;
+    var count = 0;
+    <div class="row">
+        <div class="form-group col-sm-12">
+            @foreach (var step in Model.Steps)
+            {
+                if (!headerRendered)
+                {
+                    <span class="col-sm-2 control-label method-step"><strong>Step</strong></span>
+                    <div class="col-sm-10 text-@step.Status.ToCss() method-step">
+                        <span class="fa fa-@step.Status.ToCssIcon()-circle" title="@step.Status"></span>
+                        <span>@Model.StepCount</span>
+                        <span><strong>@step.MethodName</strong></span>
+                        @if (step.Parameters.Count > 0)
+                        {
+                            <span>@(string.Join(" ", step.Parameters.Select(p => $"@{p.Name}={p.Value}")))</span>
+                        }
+                        @if (!string.IsNullOrEmpty(step.Error))
+                        {
+                            <div class="alert-danger">@step.Error</div>
+                        }
+                    </div>
+                    headerRendered = true;
+                }
+                else
+                {
+                    <div class="col-sm-10 col-sm-offset-2 text-@step.Status.ToCss() method-step">
+                        <span class="fa fa-@step.Status.ToCssIcon()-circle" title="@step.Status"></span>
+                        <span>@Model.StepCount</span>
+                        <span><strong>@step.MethodName</strong></span>
+                        @if (step.Parameters.Count > 0)
+                        {
+                            <span>@(string.Join(" ", step.Parameters.Select(p => $"@{p.Name}={p.Value}")))</span>
+                        }
+                        @if (!string.IsNullOrEmpty(step.Error))
+                        {
+                            <div class="alert-danger">@step.Error</div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}

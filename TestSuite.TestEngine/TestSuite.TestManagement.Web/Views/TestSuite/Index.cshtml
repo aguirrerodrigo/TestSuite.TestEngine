@@ -1,5 +1,4 @@
-﻿@using TestSuite.TestManagement
-@using TestSuite.TestManagement.Web.Extensions
+﻿@using TestSuite.TestManagement.Web.Extensions
 @model TestSuite.TestManagement.Web.ViewModels.TestSuiteViewModel
 @{
     ViewBag.Title = "Test Cases";
@@ -30,8 +29,8 @@
     <div class="list-group">
     @foreach (var testCase in Model.TestCases)
     {
-        <a class="list-group-item list-group-item-@testCase.Status.ToCss()" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
-            <span class="fa fa-@testCase.Status.ToCssIcon()-circle text-@testCase.Status.ToCss()" title="@testCase.Status"></span>
+        <a class="list-group-item list-group-item-@testCase.Status.ToCss() text-@testCase.Status.ToCss()" href="@Url.Action("Index", "TestCase", new { testCase = testCase.Name })">
+            <span class="fa fa-@testCase.Status.ToCssIcon()-circle" title="@testCase.Status"></span>
             <span>@testCase.Name</span>
             <span class="badge badge-default badge-pill" title="Results">@testCase.ResultCount</span>
         </a>

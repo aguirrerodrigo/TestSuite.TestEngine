@@ -153,6 +153,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\TestCase\HtmlVisitor.cs" />
+    <Compile Include="ViewModels\TestCase\ExecuteMethodStepHtmlBuilder.cs" />
+    <Compile Include="ViewModels\TestCase\LoadAssemblyStepHtmlBuilder.cs" />
     <Compile Include="ViewModels\TestCase\TestCaseDefinitionViewModel.cs" />
     <Compile Include="ViewModels\TestCase\TestCaseResultViewModel.cs" />
     <Compile Include="ViewModels\TestCase\TestCaseViewModel.cs" />
@@ -223,6 +226,9 @@
     <Content Include="Views\TestCase\Definition.cshtml" />
     <Content Include="Views\TestSuite\Index.cshtml" />
     <Content Include="Views\TestCase\Result.cshtml" />
+    <Content Include="Views\TestCase\_Assembly.cshtml" />
+    <Content Include="Views\TestCase\_Class.cshtml" />
+    <Content Include="Views\TestCase\_Step.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

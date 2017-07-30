@@ -1,0 +1,39 @@
+﻿@using TestSuite.TestManagement.Web.Extensions
+@model IEnumerable<TestSuite.TestManagement.LoadAssemblyStep>
+
+@if (Model.Any())
+{
+    var headerRendered = false;
+
+    <div class="row">
+        <div class="form-group col-sm-12">
+            @foreach (var step in Model)
+            {
+                if (!headerRendered)
+                {
+                    <span class="col-sm-2 control-label"><strong>Assembly</strong></span>
+                    <div class="col-sm-10 text-@step.Status.ToCss()">
+                        <span class="fa fa-@step.Status.ToCssIcon()-circle" title="@step.Status"></span>
+                        <span>@step.AssemblyPath</span>
+                        @if (!string.IsNullOrEmpty(step.Error))
+                        {
+                            <p class="alert-danger">@step.Error</p>
+                        }
+                    </div>
+                    headerRendered = true;
+                }
+                else
+                {
+                    <div class="col-sm-10 col-sm-offset-2 text-@step.Status.ToCss()">
+                        <span class="fa fa-@step.Status.ToCssIcon()-circle" title="@step.Status"></span>
+                        <span>@step.AssemblyPath</span>
+                        @if (!string.IsNullOrEmpty(step.Error))
+                        {
+                            <p class="alert-danger">@step.Error</p>
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}

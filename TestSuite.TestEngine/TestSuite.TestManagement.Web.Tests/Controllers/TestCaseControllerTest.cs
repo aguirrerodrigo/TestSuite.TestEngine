@@ -25,6 +25,18 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
         }
 
         [TestMethod]
+        public void Index()
+        {
+            // Arrange
+
+            // Act
+            var result = controller.Index("testCase") as ActionResult;
+
+            // Assert
+            result.ShouldNotBeNull();
+        }
+
+        [TestMethod]
         public void GetDefinition()
         {
             // Arrange
@@ -112,6 +124,67 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             // Assert
             Mock.Get(testCaseRepository)
                 .Verify(r => r.AddExecution(testCaseName, It.IsAny<TestCaseExecution>()));
+        }
+
+        [TestMethod]
+        public void GetResult_ShouldReturnView_WhenThereAreExecutions()
+        {
+            // Arrange
+            var executions = new List<TestCaseExecution>();
+            executions.Add(new TestCaseExecution());
+            testCase.Executions = executions;
+
+            // Act
+            var result = controller.GetResult("testCase") as ViewResult;
+
+            // Assert
+            result.ShouldNotBeNull();
+        }
+
+        [TestMethod]
+        public void GetResult_ShouldRedirectToDefinition_WhenNoExecutions()
+        {
+            // Arrange
+
+            // Act
+            var result = controller.GetResult("testCase") as RedirectToRouteResult;
+
+            // Assert
+            result.RouteValues["action"].ShouldEqual("GetDefinition");
+        }
+
+        [TestMethod]
+        public void GetResult_ShouldAutoSelectResult_WhenResultNameIsNull()
+        {
+            // Arrange
+            var executions = new List<TestCaseExecution>();
+            executions.Add(new TestCaseExecution() { Name = "result1" });
+            executions.Add(new TestCaseExecution() { Name = "result2" });
+            testCase.Executions = executions;
+
+            // Act
+            controller.GetResult("testCase", null);
+            var model = controller.ViewData.Model as TestCaseViewModel;
+
+            // Assert
+            model.Results.Any(d => d.IsSelected).ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void GetResult_ShouldSelectResult()
+        {
+            // Arrange
+            var executions = new List<TestCaseExecution>();
+            executions.Add(new TestCaseExecution() { Name = "result1" });
+            executions.Add(new TestCaseExecution() { Name = "result2" });
+            testCase.Executions = executions;
+
+            // Act
+            controller.GetResult("testCase", "result2");
+            var model = controller.ViewData.Model as TestCaseViewModel;
+
+            // Assert
+            model.Results.First(d => d.Name == "result2").IsSelected.ShouldBeTrue();
         }
     }
 }

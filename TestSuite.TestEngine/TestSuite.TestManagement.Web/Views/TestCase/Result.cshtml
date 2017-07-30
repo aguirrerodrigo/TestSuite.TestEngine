@@ -10,24 +10,24 @@
 
 <div class="col-md-8">
     <div class="row">
-        <div class="col-md-6">
-            @Html.LabelFor(m => m.SelectedResult.Status, new { @class = "control-label col-md-3" })
-            <p class="uneditable-input col-md-9 text-@(Model.SelectedResult?.Status.ToCss())">
+        <div class="col-sm-6">
+            @Html.LabelFor(m => m.SelectedResult.Status, new { @class = "control-label col-sm-3" })
+            <p class="uneditable-input col-sm-9 text-@(Model.SelectedResult?.Status.ToCss())">
                 <span class="fa fa-@(Model.SelectedResult?.Status.ToCssIcon())-circle"></span>
                 <strong>@(Model.SelectedResult?.Status)</strong>
             </p>
         </div>
-        <div class="col-md-6">
-            @Html.LabelFor(m => m.SelectedResult.Duration, new { @class = "control-label col-md-3" })
-            <p class="uneditable-input col-md-9">@(Model.SelectedResult?.Duration)</p>
+        <div class="col-sm-6">
+            @Html.LabelFor(m => m.SelectedResult.Duration, new { @class = "control-label col-sm-3" })
+            <p class="uneditable-input col-sm-9">@(Model.SelectedResult?.Duration)</p>
         </div>
-        <div class="col-md-6">
-            @Html.LabelFor(m => m.SelectedResult.Started, new { @class = "control-label col-md-3" })
-            <p class="uneditable-input col-md-9">@(Model.SelectedResult?.Started)</p>
+        <div class="col-sm-6">
+            @Html.LabelFor(m => m.SelectedResult.Started, new { @class = "control-label col-sm-3" })
+            <p class="uneditable-input col-sm-9">@(Model.SelectedResult?.Started)</p>
         </div>
-        <div class="col-md-6">
-            @Html.LabelFor(m => m.SelectedResult.Ended, new { @class = "control-label col-md-3" })
-            <p class="uneditable-input col-md-9">@(Model.SelectedResult?.Ended)</p>
+        <div class="col-sm-6">
+            @Html.LabelFor(m => m.SelectedResult.Ended, new { @class = "control-label col-sm-3" })
+            <p class="uneditable-input col-sm-9">@(Model.SelectedResult?.Ended)</p>
         </div>
     </div>
 
@@ -41,11 +41,11 @@
     <div class="tab-content">
         <div id="result" class="tab-pane fade in active">
             <h3>RESULT</h3>
-            <p>Some content.</p>
+            @Html.Raw(Model.SelectedResult.RenderHtml(Html))
         </div>
         <div id="template" class="tab-pane fade">
             <br />
-            @Html.TextAreaFor(m => m.SelectedResult.Template, new { @class = "form-control no-max-width template", rows = 20, @readonly="readonly"})
+            @Html.TextArea("template", Model.SelectedResult?.GenerateTemplate(), new { @class = "form-control no-max-width template", rows = 20, @readonly="readonly"})
             <input type="button" value="Copy" class="btn btn-primary btn-block no-max-width copy-template ">
         </div>
     </div>
@@ -65,8 +65,8 @@
             }
             else
             {
-                <a class="list-group-item list-group-item-@result.Status.ToCss()" href="@Url.Action("GetResult", "TestCase", new { testCase = Model.Name, resultName = result.Name })">
-                    <span class="fa fa-@result.Status.ToCssIcon()-circle text-@result.Status.ToCss()" title="@result.Status"></span>
+                <a class="list-group-item list-group-item-@result.Status.ToCss() text-@result.Status.ToCss()" href="@Url.Action("GetResult", "TestCase", new { testCase = Model.Name, resultName = result.Name })">
+                    <span class="fa fa-@result.Status.ToCssIcon()-circle" title="@result.Status"></span>
                     <span>@result.CreatedDateTime.Format()</span>
                 </a>
             }
