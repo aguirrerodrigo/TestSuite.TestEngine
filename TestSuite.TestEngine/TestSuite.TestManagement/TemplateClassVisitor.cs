@@ -113,7 +113,7 @@ namespace TestSuite.TestManagement
 
         private string BuildMethodParameters(ExecuteMethodStep method)
         {
-            var result = string.Join(", ", method.Parameters.Select(p => $"string {p.Name}"));
+            var result = string.Join(", ", method.Parameters.Select(p => $"string {p.GetFormattedName()}"));
             return result;
         }
     }

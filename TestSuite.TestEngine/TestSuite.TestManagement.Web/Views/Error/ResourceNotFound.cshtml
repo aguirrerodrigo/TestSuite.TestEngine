@@ -1,0 +1,28 @@
+﻿@{
+   ViewBag.Title = "Resource Not Found";
+}
+
+<div class="col-md-12">
+    <div>
+        <h1>
+            Oops!
+        </h1>
+        <h4>
+            404 Not Found
+        </h4>
+        <br />
+        <p>
+           Sorry, we couldn't find the resource you are looking for.
+        </p>
+        <div class="btn-toolbar">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-md">
+                <span class="glyphicon glyphicon-home"></span>
+                <span> Home</span>
+            </a>
+            <a href="@Url.Action("Contact", "Home")" class="btn btn-default btn-md">
+                <span class="glyphicon glyphicon-envelope"></span>
+                <span> Contact</span>
+            </a>
+        </div>
+    </div>
+</div>

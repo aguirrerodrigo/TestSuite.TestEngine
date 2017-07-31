@@ -16,8 +16,6 @@ namespace TestSuite.TestManagement.Web.ViewModels
 
         public bool IsSelected { get; set; }
 
-        public TestCaseDefinitionViewModel() { }
-
         public TestCaseDefinitionViewModel(TestCaseDefinition definition)
         {
             this.definition = definition;

@@ -20,8 +20,6 @@ namespace TestSuite.TestManagement.Web.ViewModels
         [DisplayName("History")]
         public IEnumerable<TestCaseDefinitionViewModel> Definitions { get; set; }
 
-        public TestCaseViewModel() { }
-
         public TestCaseViewModel(TestCase testCase)
         {
             this.testCase = testCase;
@@ -32,18 +30,36 @@ namespace TestSuite.TestManagement.Web.ViewModels
 
         public void SelectResult(string resultName)
         {
-            var result = this.Results.FirstOrDefault(r => r.Name == resultName);
-            if (result != null)
+            var result = default(TestCaseResultViewModel);
+
+            if (string.IsNullOrWhiteSpace(resultName))
             {
-                result.IsSelected = true;
-                this.SelectedResult = result;
+                result = this.Results.FirstOrDefault() ??
+                    throw new ResourceNotFoundException($"Test case '{this.Name}' does not have any results.");
             }
+            else
+            {
+                result = this.Results.FirstOrDefault(r => r.Name == resultName) ??
+                    throw new ResourceNotFoundException($"Could not find result '{resultName}' for test case '{this.Name}'.");
+            }
+            
+            result.IsSelected = true;
+            this.SelectedResult = result;
         }
 
         public void SelectDefinition(string definitionName)
         {
-            var definition = this.Definitions.FirstOrDefault(d => d.Name == definitionName);
-            if(definition != null)
+            var definition = default(TestCaseDefinitionViewModel);
+
+            if (string.IsNullOrWhiteSpace(definitionName))
+                definition = this.Definitions.FirstOrDefault();
+            else
+            {
+                definition = this.Definitions.FirstOrDefault(d => d.Name == definitionName) ??
+                    throw new ResourceNotFoundException($"Could not find definition '{definitionName}' for test case '{this.Name}'.");
+            }
+
+            if (definition != null)
             {
                 definition.IsSelected = true;
                 this.SelectedDefinition = definition;

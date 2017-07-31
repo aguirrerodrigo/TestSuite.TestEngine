@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExecutionStatus.cs" />
+    <Compile Include="ITestRunner.cs" />
     <Compile Include="Steps\FormattingStep.cs" />
     <Compile Include="Steps\ExecuteMethodStep.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -55,7 +56,6 @@
     <Compile Include="TestCase.cs" />
     <Compile Include="TestCaseDefinition.cs" />
     <Compile Include="TestCaseExecution.cs" />
-    <Compile Include="TestCaseResult.cs" />
     <Compile Include="TestStep.cs" />
     <Compile Include="TestStepCollection.cs" />
     <Compile Include="TestStepFactory.cs" />

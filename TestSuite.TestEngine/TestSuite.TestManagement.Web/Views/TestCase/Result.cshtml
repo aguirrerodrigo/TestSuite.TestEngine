@@ -35,12 +35,18 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#result">Result</a></li>
         <li><a data-toggle="tab" href="#template">Template</a></li>
-        <a href="@Url.Action("GetDefinition", new { testCase = Model.Name })" class="btn btn-info pull-right">Definition</a>
+        @using (Html.BeginForm("RunTest", "TestCase", new { testCase = Model.Name, resultName = Model.SelectedResult?.Name }))
+        {
+            <div class="pull-right btn-toolbar">
+                <input type="submit" class="btn btn-danger" value="Run Test" />
+                <a href="@Url.Action("GetDefinition", new { testCase = Model.Name })" class="btn btn-info pull-right">Definition</a>
+            </div>
+        }
     </ul>
 
     <div class="tab-content">
         <div id="result" class="tab-pane fade in active">
-            <h3>RESULT</h3>
+            <br />
             @Html.Raw(Model.SelectedResult.RenderHtml(Html))
         </div>
         <div id="template" class="tab-pane fade">

@@ -143,6 +143,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TestCaseController.cs" />
     <Compile Include="Controllers\TestSuiteController.cs" />
@@ -153,12 +154,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceNotFoundException.cs" />
     <Compile Include="ViewModels\TestCase\HtmlVisitor.cs" />
     <Compile Include="ViewModels\TestCase\ExecuteMethodStepHtmlBuilder.cs" />
     <Compile Include="ViewModels\TestCase\LoadAssemblyStepHtmlBuilder.cs" />
     <Compile Include="ViewModels\TestCase\TestCaseDefinitionViewModel.cs" />
     <Compile Include="ViewModels\TestCase\TestCaseResultViewModel.cs" />
     <Compile Include="ViewModels\TestCase\TestCaseViewModel.cs" />
+    <Compile Include="ViewModels\TestCase\TestRunner.cs" />
     <Compile Include="ViewModels\TestSuite\TestCaseSummaryViewModel.cs" />
     <Compile Include="ViewModels\TestSuite\TestSuiteViewModel.cs" />
   </ItemGroup>
@@ -229,6 +232,7 @@
     <Content Include="Views\TestCase\_Assembly.cshtml" />
     <Content Include="Views\TestCase\_Class.cshtml" />
     <Content Include="Views\TestCase\_Step.cshtml" />
+    <Content Include="Views\Error\ResourceNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -240,6 +244,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TestSuite.TestEngine\TestSuite.TestEngine.csproj">
+      <Project>{7672fdf9-ca2d-4bf8-91b1-c72125564982}</Project>
+      <Name>TestSuite.TestEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestSuite.TestManagement.FileSystemRepository\TestSuite.TestManagement.FileSystemRepository.csproj">
       <Project>{627802a3-90c9-4b54-a2fb-44dbc7fbe157}</Project>
       <Name>TestSuite.TestManagement.FileSystemRepository</Name>

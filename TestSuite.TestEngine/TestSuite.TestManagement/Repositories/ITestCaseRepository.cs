@@ -10,5 +10,6 @@ namespace TestSuite.TestManagement.Repositories
         TestCase Get(string testCaseName);
         void AddDefinition(string testCaseName, TestCaseDefinition definition);
         void AddExecution(string testCaseName, TestCaseExecution execution);
+        void UpdateExecution(string testCaseName, TestCaseExecution execution);
     }
 }

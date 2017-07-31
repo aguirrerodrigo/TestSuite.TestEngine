@@ -42,7 +42,7 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             // Arrange
 
             // Act
-            var result = controller.GetDefinition("testCase", null) as ViewResult;
+            var result = controller.GetDefinition("testCase") as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -95,7 +95,7 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
             // Assert
             result.RouteValues["action"].ShouldEqual("Index");
         }
-
+        
         [TestMethod]
         public void UpdateDefinition_ShouldAddNewDefinition()
         {
@@ -185,6 +185,22 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
 
             // Assert
             model.Results.First(d => d.Name == "result2").IsSelected.ShouldBeTrue();
+        }
+
+        [TestMethod]
+        public void RunTest_ShuldUpdateExecution()
+        {
+            // Arrange
+            var executions = new List<TestCaseExecution>();
+            executions.Add(new TestCaseExecution() { Name = "result1" });
+            testCase.Executions = executions;
+
+            // Act
+            controller.RunTest("testCase", "result1");
+
+            // Assert
+            Mock.Get(testCaseRepository)
+                .Verify(r => r.UpdateExecution("testCase", It.IsAny<TestCaseExecution>()), Times.Once());
         }
     }
 }

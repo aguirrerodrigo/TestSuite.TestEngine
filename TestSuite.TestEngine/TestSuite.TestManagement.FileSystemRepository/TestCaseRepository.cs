@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TestSuite.TestManagement.Repositories;
@@ -111,6 +110,12 @@ namespace TestSuite.TestManagement.FileSystemRepository
             var filePath = Path.Combine(this.path, testCaseName, "Executions", execution.Name + ".xml");
             var file = fileSystemRepository.CreateFile(filePath, execution.ToXml());
             execution.CreatedDateTime = file.CreatedDateTime;
+        }
+
+        public void UpdateExecution(string testCaseName, TestCaseExecution execution)
+        {
+            var filePath = Path.Combine(this.path, testCaseName, "Executions", execution.Name + ".xml");
+            var file = fileSystemRepository.UpdateFile(filePath, execution.ToXml());
         }
     }
 }

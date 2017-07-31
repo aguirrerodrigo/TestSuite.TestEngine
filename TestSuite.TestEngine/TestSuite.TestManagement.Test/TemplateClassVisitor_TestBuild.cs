@@ -127,5 +127,38 @@ namespace TestSuite.TestManagement.Test
             result.IndexOf("public void MethodA()")
                 .ShouldBeLessThan(result.IndexOf("public void MethodB()"));
         }
+
+        [TestMethod]
+        public void Test_ShouldFormatMethodName()
+        {
+            // Arrange
+            var executeMethodStep = new ExecuteMethodStep();
+            executeMethodStep.MethodName = "Method With Spaces";
+            executeMethodStep.Accept(visitor);
+
+            // Act
+            var result = visitor.Build();
+
+            // Assert
+            result.ShouldNotContain("Method With Spaces");
+            result.ShouldContain("Method_With_Spaces");
+        }
+
+        [TestMethod]
+        public void Test_ShouldFormatParameterName()
+        {
+            // Arrange
+            var executeMethodStep = new ExecuteMethodStep();
+            executeMethodStep.MethodName = "Method1";
+            executeMethodStep.Parameters.Add(new MethodParameter("parameter with spaces", "value"));
+            executeMethodStep.Accept(visitor);
+
+            // Act
+            var result = visitor.Build();
+
+            // Assert
+            result.ShouldNotContain("parameter with spaces");
+            result.ShouldContain("parameter_with_spaces");
+        }
     }
 }

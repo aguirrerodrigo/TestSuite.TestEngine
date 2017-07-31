@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -55,6 +53,11 @@ namespace TestSuite.TestManagement
             }
 
             return result;
+        }
+
+        public void Run(ITestRunner testRunner)
+        {
+            testRunner.Run(this);
         }
     }
 }

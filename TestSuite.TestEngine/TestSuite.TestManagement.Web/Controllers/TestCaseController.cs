@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TestSuite.TestManagement.Repositories;
 using TestSuite.TestManagement.Web.Factories;
@@ -29,10 +30,7 @@ namespace TestSuite.TestManagement.Web.Controllers
         [Route("{testCase}/Definition/{definitionName?}")]
         public ActionResult GetDefinition(string testCase, string definitionName = null)
         {
-            var tc = this.repository.Get(testCase);
-
-            if (string.IsNullOrWhiteSpace(definitionName) && tc.Definitions.Any())
-                definitionName = tc.Definitions.First().Name;
+            var tc = this.GetTestCase(testCase);
 
             var model = new TestCaseViewModel(tc);
             model.SelectDefinition(definitionName);
@@ -52,22 +50,65 @@ namespace TestSuite.TestManagement.Web.Controllers
 
             return RedirectToAction(nameof(Index), new { testCase = testCase });
         }
-        
+
         [Route("{testCase}/Result/{resultName?}")]
         public ActionResult GetResult(string testCase, string resultName = null)
         {
-            var tc = this.repository.Get(testCase);
+            var tc = this.GetTestCase(testCase);
 
             if (!tc.Executions.Any())
                 return RedirectToAction(nameof(GetDefinition), new { testCase = testCase });
-
-            if (string.IsNullOrWhiteSpace(resultName))
-                resultName = tc.Executions.First().Name;
 
             var model = new TestCaseViewModel(tc);
             model.SelectResult(resultName);
 
             return View("Result", model);
+        }
+
+        [HttpPost]
+        [Route("{testCase}/Result/{resultName}")]
+        public ActionResult RunTest(string testCase, string resultName)
+        {
+            var execution = this.GetTestCaseExecution(testCase, resultName);
+
+            execution.Run(new TestRunner());
+            this.repository.UpdateExecution(testCase, execution);
+
+            return RedirectToAction(nameof(GetResult), new { testCase = testCase, resultName = resultName });
+        }
+
+        public TestCase GetTestCase(string testCaseName)
+        {
+            try
+            {
+                var testCase = this.repository.Get(testCaseName);
+                return testCase;
+            }
+            catch(Exception ex)
+            {
+                throw new ResourceNotFoundException(ex.Message, ex);
+            }
+        }
+
+        public TestCaseExecution GetTestCaseExecution(string testCaseName, string testCaseExecutionName)
+        {
+            try
+            {
+                var testCase = this.repository.Get(testCaseName);
+                var execution = testCase.Executions.FirstOrDefault(e => e.Name == testCaseExecutionName);
+                if (execution == null)
+                    throw new ResourceNotFoundException($"Could not find execution '{testCaseExecutionName}' for test case '{testCaseName}'.");
+
+                return execution;
+            }
+            catch(ResourceNotFoundException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new ResourceNotFoundException(ex.Message, ex);
+            }
         }
     }
 }

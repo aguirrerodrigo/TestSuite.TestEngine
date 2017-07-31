@@ -8,7 +8,8 @@ namespace TestSuite.TestManagement.FileSystemRepository
         IEnumerable<Directory> FetchAllDirectories(string path);
         Directory GetDirectory(string directoryPath);
 
-        File CreateFile(string filePath, string contents);       
+        File CreateFile(string filePath, string contents);
+        File UpdateFile(string filePath, string contents);
         IEnumerable<File> FetchAllFiles(string path);
     }
 }

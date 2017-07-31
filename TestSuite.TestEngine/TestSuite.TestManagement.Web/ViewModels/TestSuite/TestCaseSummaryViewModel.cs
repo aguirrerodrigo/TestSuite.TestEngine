@@ -7,8 +7,6 @@ namespace TestSuite.TestManagement.Web.ViewModels
         public string Name { get; set; }
         public int ResultCount { get; set; }
         public ExecutionStatus Status { get; set; }
-
-        public TestCaseSummaryViewModel() { }
         
         public TestCaseSummaryViewModel(TestCase testCase)
         {

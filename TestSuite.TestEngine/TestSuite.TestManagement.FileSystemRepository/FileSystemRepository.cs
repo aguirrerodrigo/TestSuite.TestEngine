@@ -12,6 +12,7 @@ namespace TestSuite.TestManagement.FileSystemRepository
         {
             if (IoDirectory.Exists(directoryPath))
                 throw new DirectoryExistsException($"Directory '{directoryPath}' already exists.");
+
             var dirInfo = IoDirectory.CreateDirectory(directoryPath);
             var directory = MapDirectory(dirInfo);
 
@@ -48,6 +49,9 @@ namespace TestSuite.TestManagement.FileSystemRepository
 
         public Directory GetDirectory(string directoryPath)
         {
+            if (!IoDirectory.Exists(directoryPath))
+                throw new DirectoryNotFoundException($"Could not find directory {directoryPath}.");
+
             var dirInfo = new DirectoryInfo(directoryPath);
             var directory = MapDirectory(dirInfo);
 
@@ -56,11 +60,24 @@ namespace TestSuite.TestManagement.FileSystemRepository
 
         public File CreateFile(string filePath, string contents)
         {
+            if (IoFile.Exists(filePath))
+                throw new FileExistsException($"File '{filePath}' already exists.");
+
+            return WriteFile(filePath, contents);
+        }
+
+        public File UpdateFile(string filePath, string contents)
+        {
+            if (!IoFile.Exists(filePath))
+                throw new FileNotFoundException($"File '{filePath}' does not exist.");
+
+            return WriteFile(filePath, contents);
+        }
+
+        private File WriteFile(string filePath, string contents)
+        {
             lock (filePath)
             {
-                if (IoFile.Exists(filePath))
-                    throw new FileExistsException($"File '{filePath}' already exists.");
-
                 var dirPath = Path.GetDirectoryName(filePath);
                 IoDirectory.CreateDirectory(dirPath);
 
