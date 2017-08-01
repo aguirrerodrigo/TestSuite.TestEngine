@@ -1,14 +1,22 @@
 ﻿using System;
+using System.IO;
 
 namespace TestSuite.TestManagement.Web.ViewModels
 {
     public class TestRunner : ITestRunner, ITestStepVisitor
     {
+        private string assembliesPath;
         private TestEngine.TestEngine testEngine;
         private bool hasError = false;
 
+        public TestRunner(string assembliesPath)
+        {
+            this.assembliesPath = assembliesPath;
+        }
+
         public void Run(TestCaseExecution testCaseExecution)
         {
+            hasError = false;
             testEngine = new TestEngine.TestEngine();
 
             testCaseExecution.Started = DateTime.Now;
@@ -31,6 +39,7 @@ namespace TestSuite.TestManagement.Web.ViewModels
 
                 testEngine.MethodExecution.Execute(method);
                 executeMethodStep.Status = ExecutionStatus.Passed;
+                executeMethodStep.Error = null;
             }
             catch(Exception ex)
             {
@@ -49,8 +58,10 @@ namespace TestSuite.TestManagement.Web.ViewModels
             try
             {
                 loadAssemblyStep.Status = ExecutionStatus.InProgress;
-                testEngine.LoadAssembly(loadAssemblyStep.AssemblyPath);
+                var assemblyPath = Path.Combine(assembliesPath, loadAssemblyStep.AssemblyPath);
+                testEngine.LoadAssembly(assemblyPath);
                 loadAssemblyStep.Status = ExecutionStatus.Passed;
+                loadAssemblyStep.Error = null;
             }
             catch (Exception ex)
             {
@@ -67,6 +78,7 @@ namespace TestSuite.TestManagement.Web.ViewModels
                 setClassStep.Status = ExecutionStatus.InProgress;
                 testEngine.SetClass(setClassStep.QualifiedName);
                 setClassStep.Status = ExecutionStatus.Passed;
+                setClassStep.Error = null;
             }
             catch (Exception ex)
             {

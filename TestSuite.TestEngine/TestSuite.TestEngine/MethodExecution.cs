@@ -14,8 +14,15 @@ namespace TestSuite.TestEngine
 
         public void Execute(Method method)
         {
-            var methodInfo = this.GetMethod(method.Name, method.Parameters, out var indexedParameters);
-            methodInfo.Invoke(this.instance, indexedParameters);
+            try
+            {
+                var methodInfo = this.GetMethod(method.Name, method.Parameters, out var indexedParameters);
+                methodInfo.Invoke(this.instance, indexedParameters);
+            }
+            catch(TargetInvocationException ex)
+            {
+                throw ex.InnerException ?? ex;
+            }
         }
 
         public void Execute(string method)

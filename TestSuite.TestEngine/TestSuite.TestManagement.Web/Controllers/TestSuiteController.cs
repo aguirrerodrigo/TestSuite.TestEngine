@@ -15,7 +15,7 @@ namespace TestSuite.TestManagement.Web.Controllers
             this.repository = repository;
         }
 
-        public TestSuiteController() : this(RepositoryFactory.CreateTestCaseRepository())
+        public TestSuiteController() : this(DomainFactory.CreateTestCaseRepository())
         {
         }
 

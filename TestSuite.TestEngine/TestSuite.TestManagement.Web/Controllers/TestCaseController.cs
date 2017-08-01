@@ -17,7 +17,7 @@ namespace TestSuite.TestManagement.Web.Controllers
             this.repository = repository;
         }
 
-        public TestCaseController() : this(RepositoryFactory.CreateTestCaseRepository())
+        public TestCaseController() : this(DomainFactory.CreateTestCaseRepository())
         {
         }
 
@@ -69,9 +69,14 @@ namespace TestSuite.TestManagement.Web.Controllers
         [Route("{testCase}/Result/{resultName}")]
         public ActionResult RunTest(string testCase, string resultName)
         {
+            return this.RunTest(testCase, resultName, DomainFactory.CreateTestRunner());
+        }
+
+        public ActionResult RunTest(string testCase, string resultName, ITestRunner testRunner)
+        {
             var execution = this.GetTestCaseExecution(testCase, resultName);
 
-            execution.Run(new TestRunner());
+            execution.Run(testRunner);
             this.repository.UpdateExecution(testCase, execution);
 
             return RedirectToAction(nameof(GetResult), new { testCase = testCase, resultName = resultName });

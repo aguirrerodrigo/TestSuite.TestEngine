@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
 
 namespace TestSuite.TestEngine.Test
@@ -23,6 +24,20 @@ namespace TestSuite.TestEngine.Test
 
             // Assert
             MockClass.method1Executed.ShouldBeTrue();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void Test_ThrowException_ShouldThrowOriginalException()
+        {
+            // Arrange
+            testEngine.LoadAssembly(@"TestSuite.TestEngine.Test.dll");
+            testEngine.SetClass("TestSuite.TestEngine.Test.MockClass, TestSuite.TestEngine.Test");
+
+            // Act
+            testEngine.MethodExecution.Execute("ThrowException");
+
+            // Assert
         }
 
         [TestMethod]

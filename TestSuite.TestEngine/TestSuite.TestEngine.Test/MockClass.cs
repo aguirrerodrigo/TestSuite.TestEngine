@@ -1,4 +1,6 @@
-﻿namespace TestSuite.TestEngine.Test
+﻿using System;
+
+namespace TestSuite.TestEngine.Test
 {
     public class MockClass
     {
@@ -19,6 +21,11 @@
         public void Method3()
         {
             method3Executed = true;
+        }
+
+        public void ThrowException()
+        {
+            throw new NotImplementedException();
         }
     }
 }

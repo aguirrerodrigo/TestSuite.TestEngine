@@ -191,12 +191,13 @@ namespace TestSuite.TestManagement.Web.Tests.Controllers
         public void RunTest_ShuldUpdateExecution()
         {
             // Arrange
+            var testRunner = Mock.Of<ITestRunner>();
             var executions = new List<TestCaseExecution>();
             executions.Add(new TestCaseExecution() { Name = "result1" });
             testCase.Executions = executions;
 
             // Act
-            controller.RunTest("testCase", "result1");
+            controller.RunTest("testCase", "result1", testRunner);
 
             // Assert
             Mock.Get(testCaseRepository)

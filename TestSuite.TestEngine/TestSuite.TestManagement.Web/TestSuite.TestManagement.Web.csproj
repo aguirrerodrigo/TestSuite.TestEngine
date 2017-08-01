@@ -149,7 +149,7 @@
     <Compile Include="Controllers\TestSuiteController.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ExecutionStatusExtensions.cs" />
-    <Compile Include="Factories\RepositoryFactory.cs" />
+    <Compile Include="Factories\DomainFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
