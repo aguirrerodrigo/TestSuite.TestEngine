@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace TestSuite.TestEngine
 {
+    [Serializable]
     public class Method
     {
         public string Name { get; private set; }

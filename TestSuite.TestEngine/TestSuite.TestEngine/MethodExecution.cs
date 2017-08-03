@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace TestSuite.TestEngine
 {
-    internal class MethodExecution : IMethodExecution
+    [Serializable]
+    public class MethodExecution : MarshalByRefObject, IMethodExecution
     {
         private object instance;
 

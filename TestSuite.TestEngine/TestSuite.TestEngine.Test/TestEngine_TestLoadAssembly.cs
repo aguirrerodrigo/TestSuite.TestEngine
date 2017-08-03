@@ -1,13 +1,21 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
 using System.IO;
+using System;
+using System.Linq;
 
 namespace TestSuite.TestEngine.Test
 {
     [TestClass]
     public class TestEngine_TestLoadAssembly
     {
-        public TestEngine testEngine = new TestEngine();
+        private ITestEngine testEngine = new TestEngineProxy();
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            testEngine.Dispose();
+        }
 
         [TestMethod]
         public void Test()
@@ -15,11 +23,11 @@ namespace TestSuite.TestEngine.Test
             // Arrange
 
             // Act
-            testEngine.LoadAssembly(@"Assemblies\TestSuite.TestEngine.Mock.dll");
+            testEngine.LoadAssembly(@"Assemblies\TestSuite.TestEngine.MockReference.dll");
 
             // Assert
-            var assembly = testEngine.Assemblies["TestSuite.TestEngine.Mock"];
-            assembly.ShouldNotBeNull();
+            //var assembly = testEngine.Assemblies["TestSuite.TestEngine.MockReference"];
+            //assembly.ShouldNotBeNull();
         }
 
         [TestMethod]
@@ -45,6 +53,35 @@ namespace TestSuite.TestEngine.Test
             testEngine.LoadAssembly(@"Assemblies\TestSuite.TestEngine.Mock.dll1");
 
             // Assert
+        }
+
+        [TestMethod]
+        public void LoadsAssemblyToAppDomain()
+        {
+            // Arrange
+
+            // Act
+            testEngine.LoadAssembly(@"Assemblies\TestSuite.TestEngine.Mock.dll");
+
+            // Assert
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var mockAssembly = assemblies.FirstOrDefault(a => a.GetName().Name == "TestSuite.TestEngine.Mock");
+            mockAssembly.ShouldNotBeNull();
+        }
+
+        [TestMethod]
+        public void UnloadsAssembly_OnDispose()
+        {
+            // Arrange
+
+            // Act
+            testEngine.LoadAssembly(@"Assemblies\TestSuite.TestEngine.Mock.dll");
+            testEngine.Dispose();
+
+            // Assert
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var mockAssembly = assemblies.FirstOrDefault(a => a.GetName().Name == "TestSuite.TestEngine.Mock");
+            mockAssembly.ShouldBeNull();
         }
     }
 }

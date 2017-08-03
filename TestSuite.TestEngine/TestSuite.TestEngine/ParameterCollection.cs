@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace TestSuite.TestEngine
 {
+    [Serializable]
     public class ParameterCollection : IEnumerable<KeyValuePair<string, object>>
     {
         private Dictionary<string, object> dictionary = new Dictionary<string, object>();

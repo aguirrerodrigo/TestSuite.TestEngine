@@ -7,9 +7,16 @@ namespace TestSuite.TestEngine.Test
     [TestClass]
     public class TestEngine_TestMethodExecution
     {
-        public TestEngine testEngine = new TestEngine();
+        public ITestEngine testEngine = new TestEngineProxy();
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            testEngine.Dispose();
+        }
 
         [TestMethod]
+        [Ignore("no longer true was executed in different domain")]
         public void Test()
         {
             // Arrange
@@ -23,7 +30,7 @@ namespace TestSuite.TestEngine.Test
             testEngine.MethodExecution.Execute(method);
 
             // Assert
-            MockClass.method1Executed.ShouldBeTrue();
+            // MockClass.method1Executed.ShouldBeTrue();
         }
 
         [TestMethod]
@@ -41,6 +48,7 @@ namespace TestSuite.TestEngine.Test
         }
 
         [TestMethod]
+        [Ignore("no longer true was executed in different domain")]
         public void TestNoParams()
         {
             // Arrange
@@ -51,7 +59,7 @@ namespace TestSuite.TestEngine.Test
             testEngine.MethodExecution.Execute("Method3");
 
             // Assert
-            MockClass.method3Executed.ShouldBeTrue();
+            // MockClass.method3Executed.ShouldBeTrue();
         }
 
         [TestMethod]

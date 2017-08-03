@@ -6,7 +6,13 @@ namespace TestSuite.TestEngine.Test
     [TestClass]
     public class TestEngine_TestSetClass
     {
-        public TestEngine testEngine = new TestEngine();
+        public ITestEngine testEngine = new TestEngineProxy();
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            testEngine.Dispose();
+        }
 
         [TestMethod]
         public void Test()

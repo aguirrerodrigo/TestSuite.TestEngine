@@ -17,7 +17,7 @@ namespace TestSuite.TestEngine
             }
         }
 
-        internal void Add(Assembly assembly)
+        public void Add(Assembly assembly)
         {
             var assemblyName = assembly.GetName().Name;
             if (this.dictionary.ContainsKey(assemblyName))

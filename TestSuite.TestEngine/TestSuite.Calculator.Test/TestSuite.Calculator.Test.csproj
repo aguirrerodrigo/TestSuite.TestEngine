@@ -63,7 +63,7 @@
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y /i $(TargetPath) $(SolutionDir)TestSuite.TestManagement.Web\Assemblies\Calculator\</PostBuildEvent>
+    <PostBuildEvent>xcopy /y /i $(TargetDir)*.dll $(SolutionDir)TestSuite.TestManagement.Web\Assemblies\Calculator\</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

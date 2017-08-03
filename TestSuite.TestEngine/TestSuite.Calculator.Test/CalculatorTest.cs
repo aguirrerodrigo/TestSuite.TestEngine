@@ -35,6 +35,5 @@ namespace TestSuite.Calculator.Test
             Assert.AreEqual(Convert.ToDouble(value), calculator.GetCurrentValue());
         }
 
-
     }
 }

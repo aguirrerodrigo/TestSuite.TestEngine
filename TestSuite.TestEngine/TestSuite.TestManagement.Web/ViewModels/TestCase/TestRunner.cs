@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
+using TestSuite.TestEngine;
 
 namespace TestSuite.TestManagement.Web.ViewModels
 {
     public class TestRunner : ITestRunner, ITestStepVisitor
     {
         private string assembliesPath;
-        private TestEngine.TestEngine testEngine;
+        private ITestEngine testEngine;
         private bool hasError = false;
 
         public TestRunner(string assembliesPath)
@@ -17,15 +18,16 @@ namespace TestSuite.TestManagement.Web.ViewModels
         public void Run(TestCaseExecution testCaseExecution)
         {
             hasError = false;
-            testEngine = new TestEngine.TestEngine();
+            using (testEngine = new TestEngineProxy())
+            {
+                testCaseExecution.Started = DateTime.Now;
+                testCaseExecution.Status = ExecutionStatus.InProgress;
 
-            testCaseExecution.Started = DateTime.Now;
-            testCaseExecution.Status = ExecutionStatus.InProgress;
+                testCaseExecution.Steps.Accept(this);
 
-            testCaseExecution.Steps.Accept(this);
-
-            testCaseExecution.Status = hasError ? ExecutionStatus.Failed : ExecutionStatus.Passed;
-            testCaseExecution.Ended = DateTime.Now;
+                testCaseExecution.Status = hasError ? ExecutionStatus.Failed : ExecutionStatus.Passed;
+                testCaseExecution.Ended = DateTime.Now;
+            }
         }
 
         public void Visit(ExecuteMethodStep executeMethodStep)

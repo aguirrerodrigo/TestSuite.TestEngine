@@ -45,6 +45,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y /i $(TargetPath) $(SolutionDir)TestSuite.TestManagement.Web\Assemblies\Calculator\</PostBuildEvent>
+    <PostBuildEvent>xcopy /y /i $(TargetDir)*.dll $(SolutionDir)TestSuite.TestManagement.Web\Assemblies\Calculator\</PostBuildEvent>
   </PropertyGroup>
 </Project>

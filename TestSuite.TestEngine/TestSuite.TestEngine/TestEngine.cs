@@ -3,7 +3,8 @@ using System.Reflection;
 
 namespace TestSuite.TestEngine
 {
-    public class TestEngine
+    [Serializable]
+    public class TestEngine : MarshalByRefObject, ITestEngine
     {
         public AssemblyCollection Assemblies { get; private set; }
             = new AssemblyCollection();
@@ -59,6 +60,10 @@ namespace TestSuite.TestEngine
                 throw new TestEngineConfigurationException($"Could not find type with name '{typeName}'");
 
             return instance;
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
