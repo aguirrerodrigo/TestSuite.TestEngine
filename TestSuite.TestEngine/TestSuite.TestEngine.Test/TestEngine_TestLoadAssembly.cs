@@ -9,7 +9,7 @@ namespace TestSuite.TestEngine.Test
     [TestClass]
     public class TestEngine_TestLoadAssembly
     {
-        private ITestEngine testEngine = new TestEngineProxy();
+        private TestEngine testEngine = new TestEngine();
 
         [TestCleanup]
         public void Cleanup()
@@ -26,8 +26,8 @@ namespace TestSuite.TestEngine.Test
             testEngine.LoadAssembly(@"Assemblies\TestSuite.TestEngine.MockReference.dll");
 
             // Assert
-            //var assembly = testEngine.Assemblies["TestSuite.TestEngine.MockReference"];
-            //assembly.ShouldNotBeNull();
+            var assembly = testEngine.Assemblies["TestSuite.TestEngine.MockReference"];
+            assembly.ShouldNotBeNull();
         }
 
         [TestMethod]
@@ -67,21 +67,6 @@ namespace TestSuite.TestEngine.Test
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var mockAssembly = assemblies.FirstOrDefault(a => a.GetName().Name == "TestSuite.TestEngine.Mock");
             mockAssembly.ShouldNotBeNull();
-        }
-
-        [TestMethod]
-        public void UnloadsAssembly_OnDispose()
-        {
-            // Arrange
-
-            // Act
-            testEngine.LoadAssembly(@"Assemblies\TestSuite.TestEngine.Mock.dll");
-            testEngine.Dispose();
-
-            // Assert
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var mockAssembly = assemblies.FirstOrDefault(a => a.GetName().Name == "TestSuite.TestEngine.Mock");
-            mockAssembly.ShouldBeNull();
         }
     }
 }

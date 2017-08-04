@@ -9,7 +9,7 @@ namespace TestSuite.TestEngine
 
         public TestEngineProxy()
         {
-            this.domainProxy = AppDomain.CreateDomain(nameof(TestEngineProxy), null, AppDomain.CurrentDomain.SetupInformation);
+            this.domainProxy = AppDomain.CreateDomain("TestSuite.TestEngine", null, AppDomain.CurrentDomain.SetupInformation);
 
             var testEngineType = typeof(TestEngine);
             this.instance = (ITestEngine)this.domainProxy.CreateInstanceAndUnwrap(testEngineType.Assembly.GetName().Name, testEngineType.FullName);
@@ -20,11 +20,6 @@ namespace TestSuite.TestEngine
             get { return this.instance.MethodExecution; }
         }
 
-        public void Dispose()
-        {
-            AppDomain.Unload(domainProxy);
-        }
-
         public void LoadAssembly(string assemblyPath)
         {
             this.instance.LoadAssembly(assemblyPath);
@@ -33,6 +28,11 @@ namespace TestSuite.TestEngine
         public void SetClass(string qualifiedName)
         {
             this.instance.SetClass(qualifiedName);
+        }
+
+        public void Dispose()
+        {
+            AppDomain.Unload(domainProxy);
         }
     }
 }

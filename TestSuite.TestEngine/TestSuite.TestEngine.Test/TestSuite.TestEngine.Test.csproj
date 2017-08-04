@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestEngine_TestLoadAssembly.cs" />
     <Compile Include="TestEngine_TestMethodExecution.cs" />
+    <Compile Include="TestEngineProxy_TestLoadAssembly.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -72,6 +73,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assemblies\TestSuite.TestEngine.MockReference.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assemblies\TestSuite.TestEngine.OutOfDomainMock.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
