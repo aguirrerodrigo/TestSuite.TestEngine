@@ -36,7 +36,7 @@ namespace TestSuite.TestEngine
             }
             catch (Exception ex)
             {
-                throw new TestEngineConfigurationException($"Could not set class with qualified name '{qualifiedName}'. {ex.Message}", ex);
+                throw new TestEngineConfigurationException($"Could not set class with qualified name '{qualifiedName}'. {ex.Message}");
             }
         }
 

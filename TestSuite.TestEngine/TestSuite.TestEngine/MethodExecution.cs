@@ -23,7 +23,8 @@ namespace TestSuite.TestEngine
             }
             catch(TargetInvocationException ex)
             {
-                throw ex.InnerException ?? ex;
+                var exception = ex.InnerException ?? ex;
+                throw new MethodExecutionException(exception.Message);
             }
         }
 
