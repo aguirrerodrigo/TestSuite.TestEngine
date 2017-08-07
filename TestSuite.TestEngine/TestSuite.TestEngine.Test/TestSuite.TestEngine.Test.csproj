@@ -54,7 +54,9 @@
     <Compile Include="MethodExecutionTest_ExecuteWithParameters.cs" />
     <Compile Include="MethodExecutionTest_Execute.cs" />
     <Compile Include="MockClass.cs" />
-    <Compile Include="TestEngineProxyTest.cs" />
+    <Compile Include="TestEngineProxyTest_SetClass.cs" />
+    <Compile Include="TestEngineProxyTest_MethodExecution.cs" />
+    <Compile Include="TestEngineProxyTest_LoadAssembly.cs" />
     <Compile Include="TestEngineTest_LoadAssembly.cs" />
     <Compile Include="TestEngineTest_MethodExecution.cs" />
     <Compile Include="TestEngineTest_SetClass.cs" />

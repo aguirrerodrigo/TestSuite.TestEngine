@@ -1,13 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
 
 namespace TestSuite.TestEngine.Test
 {
     [TestClass]
-    public class TestEngineProxyTest
+    public class TestEngineProxyTest_MethodExecution
     {
         private ITestEngine testEngine = new TestEngineProxy();
 
@@ -59,15 +57,11 @@ namespace TestSuite.TestEngine.Test
         }
 
         [TestMethod]
-        public void LoadAssembly_ShouldNotLoadAssemblyInAppDomain()
+        [ExpectedException(typeof(TestEngineConfigurationException))]
+        public void MethodExecution_ShouldThrowException_WhenClassNotSet()
         {
             // Act
-            testEngine.LoadAssembly(@"Assemblies\TestSuite.TestEngine.OutOfDomainMock.dll");
-
-            // Assert
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var mockAssembly = assemblies.FirstOrDefault(a => a.GetName().Name == "TestSuite.TestEngine.OutOfDomainMock");
-            mockAssembly.ShouldBeNull();
+            var methodExecution = testEngine.MethodExecution;
         }
     }
 }
