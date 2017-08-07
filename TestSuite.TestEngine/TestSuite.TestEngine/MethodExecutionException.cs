@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace TestSuite.TestEngine
 {
-
     [Serializable]
     public class MethodExecutionException : Exception
     {

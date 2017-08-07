@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyCollection.cs" />
     <Compile Include="IMethodExecution.cs" />
     <Compile Include="ITestEngine.cs" />
     <Compile Include="Method.cs" />

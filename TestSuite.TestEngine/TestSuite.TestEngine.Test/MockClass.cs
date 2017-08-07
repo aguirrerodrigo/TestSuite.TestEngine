@@ -1,31 +1,38 @@
 ﻿using System;
+using System.IO;
 
 namespace TestSuite.TestEngine.Test
 {
     public class MockClass
     {
-        public static bool method1Executed = false;
-        public static bool method2Executed = false;
-        public static bool method3Executed = false;
+        public static bool methodAccessingStaticExecuted = false;
+        public bool methodWithNoParametersExecuted = false;
+        public bool methodWithParametersExecuted = false;
+        public string exceptionMessage;
 
-        public void Method1(string param1, int param2)
+        public void MethodWithNoParameters()
         {
-            method1Executed = true;
+            methodWithNoParametersExecuted = true;
         }
 
-        public void Method2(string param1, object param2)
+        public void MethodWithParameters(string param1, string param2)
         {
-            method2Executed = true;
+            methodWithParametersExecuted = true;
         }
 
-        public void Method3()
+        public void MethodThrowsException()
         {
-            method3Executed = true;
+            throw new NotImplementedException(exceptionMessage);
         }
 
-        public void ThrowException()
+        public void WriteToFile(string file, string contents)
         {
-            throw new NotImplementedException();
+            File.WriteAllText(file, contents);
+        }
+
+        public void MethodAccessingStatic()
+        {
+            methodAccessingStaticExecuted = true;
         }
     }
 }

@@ -51,12 +51,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MethodExecutionTest_ExecuteWithParameters.cs" />
+    <Compile Include="MethodExecutionTest_Execute.cs" />
     <Compile Include="MockClass.cs" />
-    <Compile Include="TestEngine_TestSetClass.cs" />
+    <Compile Include="TestEngineProxyTest.cs" />
+    <Compile Include="TestEngineTest_LoadAssembly.cs" />
+    <Compile Include="TestEngineTest_MethodExecution.cs" />
+    <Compile Include="TestEngineTest_SetClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestEngine_TestLoadAssembly.cs" />
     <Compile Include="TestEngine_TestMethodExecution.cs" />
-    <Compile Include="TestEngineProxy_TestLoadAssembly.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
