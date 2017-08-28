@@ -7,14 +7,14 @@ using TestSuite.TestManagement.Repositories;
 namespace TestSuite.TestManagement.Test
 {
     [TestClass]
-    public class TestCase_TestAddExecution
+    public class TestCaseTest_AddExecution
     {
         private ITestStepFactory testStepFactory = Mock.Of<ITestStepFactory>();
         private ITestCaseRepository testCaseRepository = Mock.Of<ITestCaseRepository>();
         private TestCase testCase = new TestCase();
 
         [TestMethod]
-        public void Test_ShouldAddExecutionToRepository()
+        public void ShouldAddExecutionToRepository()
         {
             // Arrange
             testCase.Name = "TestCaseName";
@@ -30,7 +30,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void Test_ShouldAutoSetName()
+        public void ShouldAutoSetName()
         {
             // Arrange
             testCase.Name = "TestCaseName";
@@ -43,7 +43,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void Test_ShouldAddExecutionAsFirstItem()
+        public void ShouldAddExecutionAsFirstItem()
         {
             // Arrange
             testCase.Executions = new TestCaseExecution[]
@@ -62,7 +62,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void Test_ShouldCreateTestStepsPerLineOfDefinition()
+        public void ShouldCreateTestStepsPerLineOfDefinition()
         {
             // Arrange
             var definition = "step\r\nstep\nstep\rstep";

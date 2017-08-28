@@ -4,12 +4,12 @@ using Should;
 namespace TestSuite.TestManagement.Test
 {
     [TestClass]
-    public class TestStepFactory_TestCreate
+    public class TestStepFactoryTest_Create
     {
         public ITestStepFactory testFactory = new TestStepFactory();
 
         [TestMethod]
-        public void TestParseLoadAssembly_NoParam()
+        public void ShouldParseLoadAssembly_WithNoParam()
         {
             // Arrange
             var command = "!loadAssembly";
@@ -23,7 +23,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseLoadAssembly()
+        public void ShouldParseLoadAssembly()
         {
             // Arrange
             var command = @"!loadAssembly Assemblies DLL\TestSuite.TestEngine.Mock.dll";
@@ -36,7 +36,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseSetClass_NoParam()
+        public void ShouldParseSetClass_WithNoParam()
         {
             // Arrange
             var command = "!setClass";
@@ -50,7 +50,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseSetClass()
+        public void ShouldParseSetClass()
         {
             // Arrange
             var command = "!setClass TestSuite.TestEngine.Mock.Class1, TestSuite.TestEngine.Mock";
@@ -63,7 +63,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseTestStep_NoParam()
+        public void ShouldParseTestStep_WithNoParam()
         {
             // Arrange
             var command = "!testStep";
@@ -78,7 +78,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseTestStep_NoMethodParameters()
+        public void ShouldParseTestStep_WithNoMethodParameters()
         {
             // Arrange
             var command = "!testStep ExecuteMethod";
@@ -92,7 +92,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseTestStep()
+        public void ShouldParseTestStep()
         {
             // Arrange
             var command = "!testStep ExecuteMethod @param1=2 @param3=test string";
@@ -109,7 +109,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseTestStep_MethodWithSpaces()
+        public void ShouldParseTestStep_WithMethodWithSpaces()
         {
             // Arrange
             var command = "!testStep Execute This Method @param1=2 @param3=test string";
@@ -126,7 +126,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseTestStep_DuplicateParameterNames()
+        public void ShouldParseTestStep_WithDuplicateParameterNames()
         {
             // Arrange
             var command = "!testStep Execute This Method @param1=2 @param1=test string";
@@ -143,7 +143,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseStepFromShortcut_NoParam()
+        public void ShouldParseStepFromShortcut_WithNoParam()
         {
             // Arrange
             var command = "#";
@@ -158,7 +158,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseTestStepWithShortcut_NoMethodParameters()
+        public void ShouldParseTestStepWithShortcut_WithNoMethodParameters()
         {
             // Arrange
             var command = "# ExecuteMethod";
@@ -172,7 +172,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseTestStepWithShortcut()
+        public void ShouldParseTestStepWithShortcut()
         {
             // Arrange
             var command = "#ExecuteMethod @param1=2 @param3=test string";
@@ -189,7 +189,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseTestStepWithShortcut_MethodWithSpaces()
+        public void ShouldParseTestStepWithShortcut_WithMethodWithSpaces()
         {
             // Arrange
             var command = "#Execute This Method @param1=2 @param3=test string";
@@ -206,7 +206,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseTestStepWithShortcut_DuplicateParameterNames()
+        public void ShouldParseTestStepWithShortcut_WithDuplicateParameterNames()
         {
             // Arrange
             var command = "#  Execute This Method @param1=2 @param1=test string";
@@ -223,7 +223,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseFormattingStep()
+        public void ShouldParseFormattingStep()
         {
             // Arrange
             var command = "~ExecuteMethod @param1=2 @param3=test string";
@@ -236,7 +236,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void TestParseFormattingStep_Html()
+        public void ShouldtParseFormattingStep_AsHtml()
         {
             // Arrange
             var command = "<h1>Formatting Text</h1>";

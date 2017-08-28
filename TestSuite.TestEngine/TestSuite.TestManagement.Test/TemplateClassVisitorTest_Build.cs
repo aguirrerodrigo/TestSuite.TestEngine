@@ -4,24 +4,43 @@ using Should;
 namespace TestSuite.TestManagement.Test
 {
     [TestClass]
-    public class TemplateClassVisitor_TestBuild
+    public class TemplateClassVisitorTest_Build
     {
         private TemplateClassVisitor visitor = new TemplateClassVisitor();
 
         [TestMethod]
-        public void Test_Empty()
+        public void ShouldIncludeUnitTestingNameSpace()
         {
-            // Arrange
-
             // Act
             var result = visitor.Build();
 
             // Assert
-            result.ShouldNotBeNull();
+            result.ShouldContain("using Microsoft.VisualStudio.TestTools.UnitTesting;");
         }
 
         [TestMethod]
-        public void Test_NoNamespace()
+        public void ShouldIncludeTestClass()
+        {
+            // Act
+            var result = visitor.Build();
+
+            // Assert
+            result.ShouldContain("[TestClass]");
+        }
+
+        [TestMethod]
+        public void ShouldCreatePlaceHolder_WhenNoClassSet()
+        {
+            // Act
+            var result = visitor.Build();
+
+            // Assert
+            result.ShouldContain("namespace <NAMESPACE>");
+            result.ShouldContain("public class <CLASS>");
+        }
+
+        [TestMethod]
+        public void ShouldCreatePlaceHolder_WhenClassHasNoNamespace()
         {
             // Arrange
             var setClassStep = new SetClassStep();
@@ -35,9 +54,9 @@ namespace TestSuite.TestManagement.Test
             result.ShouldContain("namespace <NAMESPACE>");
             result.ShouldNotContain("public class <CLASS>");
         }
-
+        
         [TestMethod]
-        public void Test_SetClassStep()
+        public void ShouldSetNameSpaceAndClass()
         {
             // Arrange
             var setClassStep = new SetClassStep();
@@ -53,34 +72,40 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void Test_SetMethodExecutionStepMultipleParameters()
+        public void ShouldIncludeTestMethod()
+        {
+            // Act
+            var result = visitor.Build();
+
+            // Assert
+            result.ShouldContain("[TestMethod]");
+            result.ShouldContain("public void Test()");
+        }
+
+        [TestMethod]
+        public void ShouldCreateMethodWithMultipleParameters()
         {
             // Arrange
             var executeMethodStep = new ExecuteMethodStep();
             executeMethodStep.MethodName = "Method1";
-            executeMethodStep.Parameters.Add(new MethodParameter("param1", "value"));
             executeMethodStep.Parameters.Add(new MethodParameter("age", "32"));
             executeMethodStep.Parameters.Add(new MethodParameter("name", "rodrigo"));
-            executeMethodStep.Parameters.Add(new MethodParameter("param1", "new value"));
+            executeMethodStep.Parameters.Add(new MethodParameter("age", "33"));
             executeMethodStep.Accept(visitor);
 
             // Act
             var result = visitor.Build();
 
             // Assert
-            result.ShouldContain(@"this.Method1(""value"", ""32"", ""rodrigo"", ""new value"");");
-            result.ShouldContain("public void Method1(string param1, string age, string name, string param1)");
+            result.ShouldContain(@"this.Method1(""32"", ""rodrigo"", ""33"");");
+            result.ShouldContain("public void Method1(string age, string name, string age)");
         }
 
         [TestMethod]
-        public void Test_SetMethodExecutionMultipleSignatures()
+        public void ShouldCreateUniqueMethodSignatures_WhenSameMethodAndParameters()
         {
             // Arrange
             var executeMethodStep1 = new ExecuteMethodStep();
-            executeMethodStep1.MethodName = "Method1";
-            executeMethodStep1.Parameters.Add(new MethodParameter("param1", "value"));
-            executeMethodStep1.Parameters.Add(new MethodParameter("param2", "32"));
-
             var executeMethodStep2 = new ExecuteMethodStep();
             executeMethodStep2.MethodName = "Method1";
             executeMethodStep2.Parameters.Add(new MethodParameter("age", "32"));
@@ -96,14 +121,12 @@ namespace TestSuite.TestManagement.Test
             var result = visitor.Build();
 
             // Assert
-            result.IndexOf(@"this.Method1(""32"");")
-                .ShouldBeLessThan(result.IndexOf(@"this.Method1(""132"");"));
-            result.IndexOf("public class Method1(string age)")
-                .ShouldEqual(result.LastIndexOf("public class Method1(string age)")); // same index, no duplicates.
+            result.IndexOf("public void Method1(string age)")
+                .ShouldEqual(result.LastIndexOf("public void Method1(string age)")); // same index, no duplicates.
         }
 
         [TestMethod]
-        public void Test_SetMultipleMethodsOrder()
+        public void ShouldExecuteMethodsInOrder()
         {
             // Arrange
             var executeMethodStep1 = new ExecuteMethodStep();
@@ -129,7 +152,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void Test_ShouldFormatMethodName()
+        public void ShouldFormatMethodName()
         {
             // Arrange
             var executeMethodStep = new ExecuteMethodStep();
@@ -145,7 +168,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void Test_ShouldFormatParameterName()
+        public void ShouldFormatParameterName()
         {
             // Arrange
             var executeMethodStep = new ExecuteMethodStep();

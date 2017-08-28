@@ -4,7 +4,7 @@ using Should;
 namespace TestSuite.TestManagement.Test
 {
     [TestClass]
-    public class TestCaseExecution_TestFromXml
+    public class TestCaseExecutionTest_FromXml
     {
         [TestMethod]
         public void Test_ShouldStillCreateInstance_OnErrorParsingXml()

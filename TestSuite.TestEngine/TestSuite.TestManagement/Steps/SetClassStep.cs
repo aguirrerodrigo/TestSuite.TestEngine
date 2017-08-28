@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TestSuite.TestManagement
+﻿namespace TestSuite.TestManagement
 {
     public class SetClassStep : TestStep
     {

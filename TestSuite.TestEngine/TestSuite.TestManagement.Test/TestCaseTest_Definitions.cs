@@ -6,12 +6,12 @@ using System.Linq;
 namespace TestSuite.TestManagement.Test
 {
     [TestClass]
-    public class TestCase_TestDefinitions
+    public class TestCaseTest_Definitions
     {
         private TestCase testCase = new TestCase();
 
         [TestMethod]
-        public void Test_ShouldSortByCreatedDateTime()
+        public void ShouldSortByCreatedDateTime()
         {
             // Arrange
             var definition1 = NewDefinition(created: DateTime.Today.AddDays(-3));

@@ -57,15 +57,22 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TemplateClassVisitor_TestBuild.cs" />
-    <Compile Include="TestCaseExecution_TestFromXml.cs" />
-    <Compile Include="TestCase_TestExecutions.cs" />
-    <Compile Include="TestCase_TestDefinitions.cs" />
-    <Compile Include="TestCase_TestCreate.cs" />
-    <Compile Include="TestCase_TestCreateExecution.cs" />
-    <Compile Include="TestCase_TestUpdateDefinition.cs" />
+    <Compile Include="Steps\SetClassStepTest.cs" />
+    <Compile Include="Steps\MethodParameterTest.cs" />
+    <Compile Include="Steps\ExecuteMethodStepTest.cs" />
+    <Compile Include="Steps\LoadAssemblyStepTest.cs" />
+    <Compile Include="Steps\FormattingStepTest.cs" />
+    <Compile Include="TemplateClassVisitorTest_Build.cs" />
+    <Compile Include="TestCaseExecutionTest_FromXml.cs" />
+    <Compile Include="TestCaseExecutionTest_Run.cs" />
+    <Compile Include="TestCaseTest_Executions.cs" />
+    <Compile Include="TestCaseTest_Definitions.cs" />
+    <Compile Include="TestCaseTest_Create.cs" />
+    <Compile Include="TestCaseTest_AddExecution.cs" />
+    <Compile Include="TestCaseTest_AddDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestStepFactory_TestCreate.cs" />
+    <Compile Include="TestStepCollectionTest_Accept.cs" />
+    <Compile Include="TestStepFactoryTest_Create.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

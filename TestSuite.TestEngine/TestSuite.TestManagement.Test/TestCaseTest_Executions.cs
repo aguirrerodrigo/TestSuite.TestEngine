@@ -6,12 +6,12 @@ using Should;
 namespace TestSuite.TestManagement.Test
 {
     [TestClass]
-    public class TestCase_TestExecutions
+    public class TestCaseTest_Executions
     {
         private TestCase testCase = new TestCase();
 
         [TestMethod]
-        public void Test_ShouldSortByCreatedDateTime()
+        public void ShouldSortByCreatedDateTime()
         {
             // Arrange
             var execution1 = NewExecution(created: DateTime.Today.AddDays(-3));

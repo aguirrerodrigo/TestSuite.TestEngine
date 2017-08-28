@@ -7,13 +7,13 @@ using TestSuite.TestManagement.Repositories;
 namespace TestSuite.TestManagement.Test
 {
     [TestClass]
-    public class TestCase_TestAddDefinition
+    public class TestCaseTest_AddDefinition
     {
         private ITestCaseRepository testCaseRepository = Mock.Of<ITestCaseRepository>();
         private TestCase testCase = new TestCase();
 
         [TestMethod]
-        public void Test_ShouldAddDefinitionToRepository()
+        public void ShouldAddDefinitionToRepository()
         {
             // Arrange
             testCase.Name = "TestCaseName";
@@ -29,7 +29,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void Test_ShouldAutoSetName()
+        public void ShouldAutoSetName()
         {
             // Arrange
             testCase.Name = "TestCaseName";
@@ -42,7 +42,7 @@ namespace TestSuite.TestManagement.Test
         }
 
         [TestMethod]
-        public void Test_ShouldAddDefinitionAsFirstItem()
+        public void ShouldAddDefinitionAsFirstItem()
         {
             // Arrange
             testCase.Definitions = new TestCaseDefinition[]
