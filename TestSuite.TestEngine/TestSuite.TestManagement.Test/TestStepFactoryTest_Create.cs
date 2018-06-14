@@ -6,7 +6,7 @@ namespace TestSuite.TestManagement.Test
     [TestClass]
     public class TestStepFactoryTest_Create
     {
-        public ITestStepFactory testFactory = new TestStepFactory();
+        private ITestStepFactory testFactory = new TestStepFactory();
 
         [TestMethod]
         public void ShouldParseLoadAssembly_WithNoParam()

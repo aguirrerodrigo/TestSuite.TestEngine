@@ -7,13 +7,13 @@ using Should;
 namespace TestSuite.TestManagement.FileSystemRepository.Test
 {
     [TestClass]
-    public class TestCaseRepository_TestGet
+    public class TestCaseRepositoryTest_Get
     {
         private Directory directory;
         private IFileSystemRepository fileSystemRepository;
         private TestCaseRepository testCaseRepository;
 
-        public TestCaseRepository_TestGet()
+        public TestCaseRepositoryTest_Get()
         {
             this.directory = new Directory();
             this.fileSystemRepository = Mock.Of<IFileSystemRepository>(r => r.GetDirectory(It.IsAny<string>()) == directory);
@@ -21,7 +21,7 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
         }
 
         [TestMethod]
-        public void Test_ShouldMapDirectoryToTestCase()
+        public void ShouldMapDirectoryToTestCase()
         {
             // Arrange
             directory.Name = "TestCase01";

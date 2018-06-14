@@ -6,21 +6,22 @@ using System;
 namespace TestSuite.TestManagement.FileSystemRepository.Test
 {
     [TestClass]
-    public class TestCaseRepository_TestCreate
+    public class TestCaseRepositoryTest_Create
     {
-        Directory directory;
-        IFileSystemRepository fileSystemRepository;
-        TestCaseRepository testCaseRepository;
+        private Directory createdDirectory;
+        private IFileSystemRepository fileSystemRepository;
+        private TestCaseRepository testCaseRepository;
 
-        public TestCaseRepository_TestCreate()
+        public TestCaseRepositoryTest_Create()
         {
-            this.directory = new Directory();
-            this.fileSystemRepository = Mock.Of<IFileSystemRepository>(r => r.CreateDirectory(It.IsAny<string>()) == this.directory);
+            this.createdDirectory = new Directory();
+            this.fileSystemRepository = Mock.Of<IFileSystemRepository>(
+                r => r.CreateDirectory(It.IsAny<string>()) == createdDirectory);
             this.testCaseRepository = new TestCaseRepository("Root", fileSystemRepository);
         }
 
         [TestMethod]
-        public void Test_ShouldCreateDirectory()
+        public void ShouldCreateDirectory()
         {
             // Arrange
             var testCase = new TestCase();
@@ -35,18 +36,18 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
         }
 
         [TestMethod]
-        public void Test_ShouldSetCreatedDateTime()
+        public void ShouldSetCreatedDateTime()
         {
             // Arrange
+            createdDirectory.CreatedDateTime = DateTime.Now;
             var testCase = new TestCase();
             testCase.Name = "TestCase01";
-            directory.CreatedDateTime = DateTime.Now;
-
+            
             // Act
             testCaseRepository.Create(testCase);
 
             // Assert
-            testCase.CreatedDateTime.ShouldEqual(directory.CreatedDateTime);
+            testCase.CreatedDateTime.ShouldEqual(createdDirectory.CreatedDateTime);
         }
     }
 }

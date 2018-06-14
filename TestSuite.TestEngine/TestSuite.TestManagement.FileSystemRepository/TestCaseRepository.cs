@@ -43,7 +43,6 @@ namespace TestSuite.TestManagement.FileSystemRepository
             testCase.CreatedDateTime = directory.CreatedDateTime;
         }
 
-
         public TestCase Get(string testCaseName)
         {
             var dirPath = Path.Combine(this.path, testCaseName);

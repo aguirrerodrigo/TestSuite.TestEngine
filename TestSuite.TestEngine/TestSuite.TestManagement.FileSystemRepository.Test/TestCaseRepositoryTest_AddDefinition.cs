@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Should;
@@ -10,48 +6,49 @@ using Should;
 namespace TestSuite.TestManagement.FileSystemRepository.Test
 {
     [TestClass]
-    public class TestCaseRepository_TestAddDefinition
+    public class TestCaseRepositoryTest_AddDefinition
     {
-        File file;
-        IFileSystemRepository fileSystemRepository;
-        TestCaseRepository testCaseRepository;
+        private File createdFile;
+        private IFileSystemRepository fileSystemRepository;
+        private TestCaseRepository testCaseRepository;
 
-        public TestCaseRepository_TestAddDefinition()
+        public TestCaseRepositoryTest_AddDefinition()
         {
-            this.file = new File();
-            this.fileSystemRepository = Mock.Of<IFileSystemRepository>(r => r.CreateFile(It.IsAny<string>(), It.IsAny<string>()) == this.file);
+            this.createdFile = new File();
+            this.fileSystemRepository = Mock.Of<IFileSystemRepository>(
+                r => r.CreateFile(It.IsAny<string>(), It.IsAny<string>()) == this.createdFile);
             this.testCaseRepository = new TestCaseRepository("Root", fileSystemRepository);
         }
 
         [TestMethod]
-        public void Test_ShouldCreateFile()
+        public void ShouldCreateTxtFile()
         {
             // Arrange
             var testCaseDefinition = new TestCaseDefinition();
             testCaseDefinition.Name = "TestCase01";
-            testCaseDefinition.Definition = "Definition";
+            testCaseDefinition.Definition = "Definition01";
 
             // Act
             testCaseRepository.AddDefinition("testCaseName", testCaseDefinition);
 
             // Assert
             Mock.Get(fileSystemRepository)
-                .Verify(r => r.CreateFile("Root\\testCaseName\\Definitions\\TestCase01.txt", testCaseDefinition.Definition), Times.Once());
+                .Verify(r => r.CreateFile("Root\\testCaseName\\Definitions\\TestCase01.txt", "Definition01"), Times.Once());
         }
 
         [TestMethod]
-        public void Test_ShouldSetCreatedDateTime()
+        public void ShouldSetCreatedDateTime()
         {
             // Arrange
+            createdFile.CreatedDateTime = DateTime.Now;
             var testCaseDefinition = new TestCaseDefinition();
             testCaseDefinition.Name = "TestCaseDefinition01";
-            file.CreatedDateTime = DateTime.Now;
 
             // Act
             testCaseRepository.AddDefinition("testCaseName", testCaseDefinition);
 
             // Assert
-            testCaseDefinition.CreatedDateTime.ShouldEqual(file.CreatedDateTime);
+            testCaseDefinition.CreatedDateTime.ShouldEqual(createdFile.CreatedDateTime);
         }
     }
 }

@@ -8,13 +8,13 @@ using Should;
 namespace TestSuite.TestManagement.FileSystemRepository.Test
 {
     [TestClass]
-    public class TestCaseRepository_TestFetchAll
+    public class TestCaseRepositoryTest_FetchAll
     {
-        List<Directory> directories;
-        IFileSystemRepository fileSystemRepository;
-        TestCaseRepository testCaseRepository;
+        private List<Directory> directories;
+        private IFileSystemRepository fileSystemRepository;
+        private TestCaseRepository testCaseRepository;
 
-        public TestCaseRepository_TestFetchAll()
+        public TestCaseRepositoryTest_FetchAll()
         {
             this.directories = new List<Directory>();
             this.fileSystemRepository = Mock.Of<IFileSystemRepository>(r => r.FetchAllDirectories(It.IsAny<string>()) == directories);
@@ -22,11 +22,11 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
         }
 
         [TestMethod]
-        public void Test_ShouldRetrieveFromFileSystemRepository()
+        public void ShouldRetrieveFromFileSystemRepository()
         {
             // Arrange
             var dir1 = NewDirectory(DateTime.Now, "dir1");
-            this.directories.Add(dir1);
+            directories.Add(dir1);
 
             // Act
             var result = this.testCaseRepository.FetchAll().ToList();
@@ -37,7 +37,7 @@ namespace TestSuite.TestManagement.FileSystemRepository.Test
         }
 
         [TestMethod]
-        public void Test_ShouldSortByName()
+        public void ShouldSortByName()
         {
             // Arrange
             var dir1 = NewDirectory(DateTime.Now.AddDays(-3), "dir1");

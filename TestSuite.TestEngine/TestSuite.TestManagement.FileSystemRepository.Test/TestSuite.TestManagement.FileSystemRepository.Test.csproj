@@ -58,12 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileSystemRepository_TestLockOnFileName.cs" />
-    <Compile Include="TestCaseRepository_TestAddDefinition.cs" />
-    <Compile Include="TestCaseRepository_TestAddExecution.cs" />
-    <Compile Include="TestCaseRepository_TestCreate.cs" />
+    <Compile Include="TestCaseRepositoryTest_AddDefinition.cs" />
+    <Compile Include="TestCaseRepositoryTest_AddExecution.cs" />
+    <Compile Include="TestCaseRepositoryTest_Create.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestCaseRepository_TestFetchAll.cs" />
-    <Compile Include="TestCaseRepository_TestGet.cs" />
+    <Compile Include="TestCaseRepositoryTest_FetchAll.cs" />
+    <Compile Include="TestCaseRepositoryTest_Get.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
