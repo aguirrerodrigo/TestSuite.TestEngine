@@ -35,7 +35,7 @@ namespace TestSuite.TestManagement.Web.ViewModels
             try
             {
                 executeMethodStep.Status = ExecutionStatus.InProgress;
-                var method = new TestEngine.Method(executeMethodStep.MethodName);
+                var method = new TestEngine.Method(executeMethodStep.GetFormattedMethodName());
                 foreach (var p in executeMethodStep.Parameters)
                     method.Parameters[p.Name] = p.Value;
 
